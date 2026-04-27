@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>手机号验证登录 - Vibe</title>
+  <link rel="stylesheet" href="../css/base/variables.css">
+  <link rel="stylesheet" href="../css/base/reset.css">
+  <link rel="stylesheet" href="../css/base/typography.css">
+  <link rel="stylesheet" href="../css/components/status-bar.css">
+  <link rel="stylesheet" href="../css/pages/auth.css">
+  <style>
+    .auth-page { background: #fff; position: relative; display: flex; flex-direction: column; height: 100%; }
+    .auth-nav { display: flex; align-items: center; justify-content: space-between; padding: 8px 20px 4px; }
+    .auth-nav__back { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; background: none; border: none; }
+    .auth-nav__help { font-size: 14px; color: #999; cursor: pointer; }
+    .auth-content { padding: 16px 24px 0; flex: 1; }
+    .auth-headline { font-size: 22px; font-weight: 700; color: #111; line-height: 1.5; margin-bottom: 36px; }
+    .phone-row { display: flex; align-items: center; border-bottom: 1.5px solid #e8e8e8; margin-bottom: 12px; }
+    .phone-row__prefix { display: flex; align-items: center; gap: 5px; padding: 14px 14px 14px 0; font-size: 16px; color: #111; white-space: nowrap; flex-shrink: 0; cursor: pointer; }
+    .phone-row__input { flex: 1; border: none; outline: none; font-size: 16px; color: #111; padding: 14px 0; background: transparent; }
+    .phone-row__input::placeholder { color: #ccc; }
+    .auth-link-row { text-align: right; margin-bottom: 28px; }
+    .auth-link-row a { font-size: 13px; color: #999; text-decoration: none; cursor: pointer; }
+    .auth-link-row a:hover { color: var(--c-primary); }
+    .auth-btn-primary { width: 100%; height: 50px; background: var(--c-primary); border: none; border-radius: 25px; font-size: 16px; font-weight: 600; color: #111; cursor: pointer; margin-bottom: 18px; }
+    .auth-terms-text { font-size: 11px; color: #bbb; line-height: 1.7; text-align: center; }
+    .auth-terms-text a { color: #bbb; text-decoration: underline; }
+    .auth-footer-area { position: absolute; bottom: 0; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: 0; }
+    .auth-footer-area__socials { display: flex; gap: 24px; margin-bottom: 16px; padding-top: 20px; }
+    .social-icon-btn { width: 47px; height: 47px; border-radius: 50%; background: #f4f4f4; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; }
+    .auth-footer-area__recover { font-size: 13px; color: #999; cursor: pointer; margin-bottom: 14px; }
+    .auth-deco { width: 100%; height: 160px; object-fit: cover; object-position: bottom; display: block; }
+  </style>
+</head>
+<body>
+  <div class="phone-frame">
+    <div class="page auth-page">
+
+      <header class="page-header">
+        <div class="status-bar status-bar--use-header-image">
+          <span class="status-bar__time">09:41</span>
+          <div class="status-bar__indicators">
+            <svg width="19" height="12" viewBox="0 0 20 12" fill="none"><rect x="0" y="7" width="3" height="5" rx="0.5" fill="black"/><rect x="4.5" y="5" width="3" height="7" rx="0.5" fill="black"/><rect x="9" y="3" width="3" height="9" rx="0.5" fill="black"/><rect x="13.5" y="1" width="3" height="11" rx="0.5" fill="black"/></svg>
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><circle cx="8.5" cy="10.5" r="1.5" fill="black"/><path d="M5 7.5C6.1 6.4 7.2 5.9 8.5 5.9s2.4 0.5 3.5 1.6" stroke="black" stroke-width="1.4" stroke-linecap="round" fill="none"/><path d="M2.5 5C4.3 3.2 6.3 2.3 8.5 2.3s4.2 0.9 6 2.7" stroke="black" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>
+            <svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x="0.5" y="0.5" width="22" height="12" rx="3.5" stroke="black" stroke-opacity="0.35"/><rect x="2" y="2" width="17" height="9" rx="2" fill="black"/><path d="M24 4v5a2.5 2.5 0 000-5z" fill="black" fill-opacity="0.4"/></svg>
+          </div>
+        </div>
+        <div class="auth-nav">
+          <button class="auth-nav__back" id="btn-back" type="button">
+            <svg width="10" height="17" viewBox="0 0 10 17" fill="none"><path d="M9 1L1 8.5L9 16" stroke="#222" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <span class="auth-nav__help">帮助</span>
+        </div>
+      </header>
+
+      <div class="auth-content">
+        <h1 class="auth-headline">登录玩伴<br>和同频好友玩在一起</h1>
+
+        <div class="phone-row">
+          <div class="phone-row__prefix">
+            <span>+86</span>
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="#999" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <input class="phone-row__input" type="tel" placeholder="请输入手机号" maxlength="11" id="phone-input">
+        </div>
+
+        <div class="auth-link-row">
+          <a onclick="Router.go('phone-password.html')">密码登录</a>
+        </div>
+
+        <button class="auth-btn-primary" id="btn-submit" type="button">验证并登录</button>
+
+        <p class="auth-terms-text">
+          登录即代表同意<a href="#">《用户协议》</a>及<a href="#">《隐私政策》</a><br>
+          未注册手机将自动创建玩伴账号
+        </p>
+      </div>
+
+      <div class="auth-footer-area">
+        <div class="auth-footer-area__socials">
+          <button class="social-icon-btn" type="button">
+            <img data-asset="login_qq" src="" alt="QQ" width="26" height="26">
+          </button>
+          <button class="social-icon-btn" type="button">
+            <img data-asset="login_apple" src="" alt="Apple" width="22" height="22">
+          </button>
+        </div>
+        <span class="auth-footer-area__recover" onclick="Router.go('phone-password.html')">找回账号</span>
+        <img class="auth-deco" data-asset="phone_verify_deco" src="" alt="">
+      </div>
+
+    </div>
+  </div>
+
+  <script src="../js/utils/auth.js"></script>
+  <script src="../js/utils/assets.js"></script>
+  <script src="../js/utils/router.js"></script>
+  <script>
+    window.populateAssets && window.populateAssets();
+    document.getElementById('btn-back').addEventListener('click', function() { Router.back(); });
+    document.getElementById('btn-submit').addEventListener('click', function() {
+      var val = document.getElementById('phone-input').value.trim();
+      if (val.length >= 11) Router.go('verify-code.html');
+    });
+  </script>
+</body>
+</html>

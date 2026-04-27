@@ -1,0 +1,107 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: var(--font-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Desktop: center the phone frame */
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #d0d0d0;
+}
+
+.phone-frame {
+  width: var(--screen-w);
+  height: var(--screen-h);
+  background: var(--c-bg);
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  border-radius: 40px;
+  box-shadow: var(--shadow-modal);
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  background: var(--c-bg);
+}
+
+.page-header {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+  background: var(--c-bg);
+}
+
+.page-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+
+.page-body::-webkit-scrollbar {
+  display: none;
+}
+
+img {
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* Real phone viewport: render full-bleed app layout instead of desktop mock frame */
+@media (max-width: 768px) {
+  body {
+    display: block;
+    min-height: 100dvh;
+    background: #fff;
+  }
+
+  .phone-frame {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100dvh !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
+
+  .page-body {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 20px);
+  }
+}

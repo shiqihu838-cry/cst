@@ -1,0 +1,224 @@
+.nav-bar {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  display: flex;
+  width: 402px;
+  max-width: 100%;
+  height: calc(var(--nav-bar-h) + env(safe-area-inset-bottom));
+  padding: 13px 27px calc(13px + env(safe-area-inset-bottom));
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  background: var(--c-bg);
+  position: relative;
+  z-index: 10;
+}
+
+.nav-bar__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  flex: 0 0 auto;
+  width: 24px;
+  min-width: 24px;
+  overflow: visible;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-bar__icon-wrap {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+  overflow: visible;
+}
+
+/* Foreground icon layer (never affects layout). */
+.nav-bar__icon-wrap > svg:not(.nav-bar__home-bg):not(.nav-bar__square-bg):not(.nav-bar__chat-bg):not(.nav-bar__profile-bg) {
+  position: relative;
+  z-index: 2;
+  display: block;
+  transform: none;
+}
+
+/* Square blob bg SVG (shown only when square is active) */
+.nav-bar__square-bg {
+  width: 20px;
+  height: 18px;
+}
+
+.nav-bar__item[data-nav="square"].is-active .nav-bar__square-bg {
+  opacity: 1;
+}
+
+/* Chat blob bg SVG (shown only when chat is active) */
+.nav-bar__chat-bg {
+  width: 18px;
+  height: 19px;
+}
+
+.nav-bar__item[data-nav="chat"].is-active .nav-bar__chat-bg {
+  opacity: 1;
+}
+
+/* Profile blob bg SVG (shown only when profile is active) */
+.nav-bar__profile-bg {
+  width: 18px;
+  height: 18px;
+}
+
+.nav-bar__item[data-nav="profile"].is-active .nav-bar__profile-bg {
+  opacity: 1;
+}
+
+/* Gradient house bg SVG (shown only when home is active) */
+.nav-bar__home-bg {
+  width: 17px;
+  height: 18px;
+}
+
+/* Unified absolute-positioned color block layer. */
+.nav-bar__home-bg,
+.nav-bar__square-bg,
+.nav-bar__chat-bg,
+.nav-bar__profile-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(calc(-50% + 1px), -50%);
+  opacity: 0;
+  z-index: 1;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.nav-bar__item[data-nav="home"].is-active .nav-bar__home-bg {
+  opacity: 1;
+}
+
+.nav-bar__label {
+  font-family: var(--font-main);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--c-dark);
+  white-space: nowrap;
+  text-align: center;
+  line-height: 14px;
+}
+
+/* Center plus button */
+.nav-bar__item--add {
+  flex: 0 0 auto;
+  width: 44px;
+  min-width: 44px;
+  gap: 0;
+  padding-bottom: 10px;
+}
+
+.nav-bar__add-circle {
+  width: 44px;
+  height: 44px;
+  background: var(--c-primary);
+  border-radius: var(--r-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-bar__add-circle svg {
+  display: block;
+  transform: none;
+}
+
+.nav-add-sheet {
+  position: absolute;
+  inset: 0;
+  z-index: 1200;
+  pointer-events: none;
+}
+
+.nav-add-sheet__mask {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.nav-add-sheet__panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  border-radius: 18px 18px 0 0;
+  transform: translateY(100%);
+  transition: transform 0.24s ease;
+  overflow: hidden;
+}
+
+.nav-add-sheet.is-open {
+  pointer-events: auto;
+}
+
+.nav-add-sheet.is-open .nav-add-sheet__mask {
+  opacity: 1;
+}
+
+.nav-add-sheet.is-open .nav-add-sheet__panel {
+  transform: translateY(0);
+}
+
+.nav-add-sheet__action,
+.nav-add-sheet__cancel {
+  width: 100%;
+  border: none;
+  background: #fff;
+  cursor: pointer;
+  font-family: var(--font-main);
+  color: #222;
+}
+
+.nav-add-sheet__action {
+  min-height: 68px;
+  padding: 10px 20px;
+  border-bottom: 1px solid #f2f2f2;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.15;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-add-sheet__action--camera {
+  min-height: 68px;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.nav-add-sheet__title {
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 400;
+}
+
+.nav-add-sheet__desc {
+  font-size: 13px;
+  line-height: 1;
+  color: #999;
+  font-weight: 400;
+}
+
+.nav-add-sheet__cancel {
+  min-height: 72px;
+  font-size: 18px;
+  font-weight: 400;
+  border-top: 8px solid #f6f6f6;
+}

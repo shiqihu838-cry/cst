@@ -1,0 +1,41 @@
+/* Friend avatar with online status dot */
+.avatar {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.avatar__img {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--r-full);
+  object-fit: cover;
+  display: block;
+}
+
+.avatar__status {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: var(--r-full);
+  border: 2px solid var(--c-bg);
+}
+
+.avatar__status--online {
+  background: #4ade80;
+}
+
+.avatar__status--gaming {
+  background: #38bdf8;
+}
+
+.avatar__status--offline {
+  display: none;
+}
+
+/* Small round host avatar in card */
+.avatar--sm .avatar__img {
+  width: 30px;
+  height: 30px;
+}

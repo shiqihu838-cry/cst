@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>服务协议 - Vibe</title>
+  <link rel="stylesheet" href="../css/base/variables.css">
+  <link rel="stylesheet" href="../css/base/reset.css">
+  <link rel="stylesheet" href="../css/base/typography.css">
+  <link rel="stylesheet" href="../css/components/status-bar.css">
+  <link rel="stylesheet" href="../css/components/button.css">
+  <link rel="stylesheet" href="../css/components/modal.css">
+  <link rel="stylesheet" href="../css/pages/login.css">
+  <link rel="stylesheet" href="../css/pages/hint.css">
+</head>
+<body>
+  <div class="phone-frame">
+    <div class="page login-page">
+
+      <!-- Status Bar -->
+      <header class="page-header">
+        <div class="status-bar status-bar--use-header-image">
+          <span class="status-bar__time">09:41</span>
+          <div class="status-bar__indicators">
+            <svg width="19" height="12" viewBox="0 0 20 12" fill="none">
+              <rect x="0" y="7" width="3" height="5" rx="0.5" fill="black"/>
+              <rect x="4.5" y="5" width="3" height="7" rx="0.5" fill="black"/>
+              <rect x="9" y="3" width="3" height="9" rx="0.5" fill="black"/>
+              <rect x="13.5" y="1" width="3" height="11" rx="0.5" fill="black"/>
+              <rect x="18" y="0" width="2" height="12" rx="0.5" fill="black" opacity="0.3"/>
+            </svg>
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="none">
+              <circle cx="8.5" cy="10.5" r="1.5" fill="black"/>
+              <path d="M5 7.5C6.1 6.4 7.2 5.9 8.5 5.9s2.4 0.5 3.5 1.6" stroke="black" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+              <path d="M2.5 5C4.3 3.2 6.3 2.3 8.5 2.3s4.2 0.9 6 2.7" stroke="black" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+            </svg>
+            <svg width="27" height="13" viewBox="0 0 27 13" fill="none">
+              <rect x="0.5" y="0.5" width="22" height="12" rx="3.5" stroke="black" stroke-opacity="0.35"/>
+              <rect x="2" y="2" width="17" height="9" rx="2" fill="black"/>
+              <path d="M24 4v5a2.5 2.5 0 000-5z" fill="black" fill-opacity="0.4"/>
+            </svg>
+          </div>
+        </div>
+      </header>
+
+      <!-- Login page background (same as login.html, dimmed) -->
+      <div class="page-body">
+        <div class="login-help">
+          <a href="#">帮助</a>
+        </div>
+        <div class="login-brand">
+          <img class="login-brand__logo" data-asset="hint_vibe_logo" alt="Vibe">
+          <p class="login-brand__tagline">自在玩乐&nbsp;&nbsp;同频相伴</p>
+        </div>
+        <div class="login-actions">
+          <button class="login-wechat" type="button" style="opacity:.5;pointer-events:none">
+            <img class="login-wechat__icon" data-asset="hint_wechat_mask" alt="">
+            <span class="login-wechat__text">微信登录</span>
+          </button>
+          <div class="login-socials" style="opacity:.5;pointer-events:none">
+            <button class="btn btn--social" type="button">
+              <img style="width:25px;height:25px;object-fit:contain" data-asset="hint_qq" alt="QQ">
+            </button>
+            <button class="btn btn--social" type="button">
+              <img style="width:13px;height:21px;object-fit:contain" data-asset="hint_phone" alt="手机">
+            </button>
+            <button class="btn btn--social" type="button">
+              <img style="width:22px;height:22px;object-fit:contain" data-asset="hint_apple" alt="Apple">
+            </button>
+          </div>
+        </div>
+        <div class="login-terms" style="opacity:.5">
+          <img class="login-terms__checkbox" data-asset="hint_checked" alt="checked">
+          <span class="login-terms__text">已阅读并同意</span>
+          <span class="login-terms__link">隐私政策</span>
+          <span class="login-terms__text">和</span>
+          <span class="login-terms__link">服务条款</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 遮罩与弹窗放在 phone-frame 内、.page 外，避免与 page-header 的 z-index 层叠错乱，整块屏幕（含顶栏）一起压暗 -->
+    <div class="hint-overlay" aria-hidden="true"></div>
+
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <p class="modal__title" id="modal-title">服务协议及隐私保护</p>
+      <div class="modal__body">
+        <span style="color:rgba(34,34,34,0.8)">我已阅读并同意</span>
+        <span style="color:var(--c-link);cursor:pointer">隐私政策</span>
+        <span style="color:rgba(34,34,34,0.8)">和</span>
+        <span style="color:var(--c-link);cursor:pointer">服务条款</span>
+      </div>
+      <div class="modal__actions">
+        <button class="modal__btn modal__btn--cancel" id="modal-cancel" type="button">不同意</button>
+        <button class="modal__btn modal__btn--confirm" id="modal-confirm" type="button">同意</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/utils/auth.js"></script>
+  <script src="../js/utils/assets.js"></script>
+  <script src="../js/utils/router.js"></script>
+  <script src="../js/pages/hint.js"></script>
+</body>
+</html>

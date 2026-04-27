@@ -1,0 +1,320 @@
+.home-page {
+  background: var(--c-bg);
+}
+
+/* App header (below status bar) */
+.app-header {
+  display: flex;
+  width: 362.35px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0 12px;
+  margin: 0 auto;
+}
+
+.app-header__logo {
+  height: 29px;
+  width: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* Section heading shared style */
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.section-heading__title {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+}
+
+.section-heading__title-image {
+  width: 76.43px;
+  height: 23px;
+  display: block;
+  object-fit: fill;
+}
+
+.section-heading__title-text {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--c-dark);
+  position: relative;
+  z-index: 1;
+}
+
+.section-heading__star {
+  width: 5px;
+  height: 5px;
+  background: var(--c-primary);
+  border-radius: 1px;
+  transform: rotate(45deg);
+  margin-bottom: 4px;
+}
+
+.section-heading__more {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-dark);
+  cursor: pointer;
+}
+
+.section-heading__more svg {
+  display: block;
+}
+
+/* ---- 好友在玩 section ---- */
+.friends-section {
+  padding: 0 16px 0 16px;
+  margin-bottom: 11px;
+}
+
+.friends-scroll {
+  display: flex;
+  align-items: flex-start;
+  column-gap: 32px;
+  row-gap: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+}
+
+.friends-scroll::-webkit-scrollbar { display: none; }
+
+.friend-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.friends-section .btn--tag,
+.friends-section .btn--tag-dark {
+  display: flex;
+  padding: 5px 9px 5px 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.friend-card__avatar-wrap {
+  position: relative;
+}
+
+.friend-card__avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--r-full);
+  object-fit: cover;
+}
+
+.friend-card__status-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: var(--r-full);
+  border: 2px solid var(--c-bg);
+}
+
+.friend-card__name-row {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.friend-card__name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--c-dark);
+  white-space: nowrap;
+}
+
+.friend-card__gender {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  display: block;
+  object-fit: contain;
+}
+
+.friend-card__game-row {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.friend-card__game-icon {
+  width: 13px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.friend-card__game-name {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(34, 34, 34, 0.8);
+  white-space: nowrap;
+}
+
+/* ---- 游戏推荐 section ---- */
+.games-section {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.game-cards-grid {
+  position: relative;
+  width: 369.64px;
+  height: 179.11px;
+}
+
+.game-card {
+  position: absolute;
+  overflow: hidden;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+
+/* 你画我猜 spans 2 rows */
+.game-card--doodle {
+  left: 0;
+  top: 0;
+  width: 190.51px;
+  height: 179.11px;
+  border-radius: 8px 0 0 8px;
+  overflow: hidden;
+}
+
+/* 拆弹蛙 top-right */
+.game-card--bomb {
+  left: 191.97px;
+  top: 0;
+  height: 94.45px;
+  width: 177.53px;
+  border-radius: 0 8px 0 0;
+  overflow: hidden;
+}
+
+/* 合成大西瓜 bottom-right */
+.game-card--watermelon {
+  left: 179.18px;
+  top: 107.22px;
+  height: 70.89px;
+  width: 190.46px;
+  border-radius: 0 0 8px 0;
+  overflow: hidden;
+}
+
+.game-card__full-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.game-card__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.game-card__art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mix-blend-mode: multiply;
+}
+
+.game-card__info {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 14px;
+  z-index: 1;
+}
+
+.game-card__players {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(34, 34, 34, 0.9);
+  margin-bottom: 2px;
+}
+
+.game-card__title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: #222;
+}
+
+/* ---- 发现派对 section ---- */
+.parties-section {
+  padding: 0 16px;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 0;
+}
+
+.parties-section::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 402.45px;
+  height: 329.472px;
+  background: linear-gradient(180deg, rgba(241, 241, 243, 0) 11.8237%, #f1f1f3 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.parties-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 8px;
+  row-gap: 12px;
+}
+
+.parties-section .section-heading,
+.parties-section .parties-grid {
+  position: relative;
+  z-index: 1;
+}
+
+.parties-section .party-card {
+  width: 100%;
+  min-width: 0;
+}
+
+.parties-section .party-card__image-wrap {
+  width: 100%;
+}
+
+/* Home background gradient bottom decoration */
+.home-bg-deco {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 350px;
+  pointer-events: none;
+  z-index: 0;
+}

@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>广场·附近 - Vibe</title>
+  <link rel="stylesheet" href="../css/base/variables.css">
+  <link rel="stylesheet" href="../css/base/reset.css">
+  <link rel="stylesheet" href="../css/base/typography.css">
+  <link rel="stylesheet" href="../css/components/status-bar.css">
+  <link rel="stylesheet" href="../css/components/nav-bar.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { background: #f8f8f8; }
+    .phone-frame { width: 402px; height: 889px; margin: 0 auto; background: linear-gradient(180deg, rgba(0, 255, 246, 0.20) -23.38%, rgba(121, 255, 250, 0.40) 6.37%, #F8F8F8 53.76%); display: flex; flex-direction: column; overflow: hidden; position: relative; }
+    .page { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: transparent; }
+    .status-bar { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px 0; height: 44px; }
+    .status-bar__time { font-size: 15px; font-weight: 600; color: #111; }
+    .status-bar__indicators { display: flex; align-items: center; gap: 6px; }
+    .sq-header { position: relative; flex-shrink: 0; background: transparent; overflow: hidden; }
+    .sq-header::before { content: none; }
+    .sq-top-nav { display: flex; width: 376px; justify-content: space-between; align-items: center; margin: 1px auto 4px; position: relative; z-index: 3; }
+    .sq-tabs-row { display: flex; align-items: center; gap: 25px; }
+    .sq-tab { font-family: "PingFang SC", sans-serif; font-size: 19px; font-style: normal; font-weight: 500; line-height: normal; color: #000; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .sq-tab.is-active { font-family: "YouSheBiaoTiHei", sans-serif; font-size: 24px; font-style: normal; font-weight: 400; line-height: normal; color: #000; }
+    .sq-search { width: 167px; height: 28px; background: #ffffff; border-radius: 60px; display: flex; align-items: center; justify-content: space-between; padding: 4px 12px; box-shadow: none; flex-shrink: 0; }
+    .sq-header > .status-bar {
+      position: relative;
+      z-index: 3;
+    }
+    .sq-search input { border: none; outline: none; font-size: 15px; color: #c4c5c7; background: transparent; min-width: 0; width: 100%; height: 21px; line-height: 21px; padding: 0; margin: 0; font-family: "PingFang SC", sans-serif; }
+    .sq-search input:focus::placeholder { color: transparent; }
+
+    /* Category filters use discover page style */
+    .filter-row { width: 402px; max-width: 100%; margin: 14px auto 11px; background: transparent; padding: 0 15px 0 15px; display: flex; flex-wrap: nowrap; align-items: flex-start; gap: 50px; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
+    .filter-row::-webkit-scrollbar { display: none; }
+    .filter-pill { position: relative; height: 27px; padding: 0; font-size: 16px; font-family: "PingFang SC", sans-serif; font-style: normal; font-weight: 500; line-height: 22.4px; color: rgba(34, 34, 34, 0.6); background: transparent; border: none; cursor: pointer; white-space: nowrap; flex: 0 0 auto; display: inline-flex; align-items: center; -webkit-tap-highlight-color: transparent; border-radius: 0; }
+    .filter-pill.is-active { font-weight: 600; color: rgba(34, 34, 34, 0.6); background: transparent; }
+    .filter-pill.is-active::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 3px; border-radius: 2px; background: #00fff6; transform: none; }
+
+    .page-body { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 8px; }
+    .page-body::-webkit-scrollbar { display: none; }
+    .posts-masonry { padding: 0 10px; display: flex; gap: 8px; }
+    .masonry-col { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .post-card { background: #fff; border-radius: 8px; overflow: hidden; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .post-card__img { width: 100%; display: block; object-fit: cover; background: #e0e0e0; }
+    .post-card__body { padding: 8px 10px 10px; }
+    .post-card__title { font-size: 13px; color: #222; line-height: 1.4; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .post-card__foot { display: flex; align-items: center; justify-content: space-between; }
+    .post-card__author { display: flex; align-items: center; gap: 5px; }
+    .post-card__avatar { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; background: #ddd; }
+    .post-card__name { font-size: 11px; color: #999; }
+    .post-card__likes { display: flex; align-items: center; gap: 3px; font-size: 11px; color: #bbb; }
+    .nav-bar { border-top: 1px solid rgba(0,0,0,0.06); }
+  </style>
+</head>
+<body>
+  <div class="phone-frame">
+    <div class="page">
+      <div class="sq-header">
+        <div class="status-bar status-bar--use-header-image">
+          <span class="status-bar__time">09:41</span>
+          <div class="status-bar__indicators">
+            <svg width="19" height="12" viewBox="0 0 20 12" fill="none"><rect x="0" y="7" width="3" height="5" rx="0.5" fill="black"/><rect x="4.5" y="5" width="3" height="7" rx="0.5" fill="black"/><rect x="9" y="3" width="3" height="9" rx="0.5" fill="black"/><rect x="13.5" y="1" width="3" height="11" rx="0.5" fill="black"/></svg>
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><circle cx="8.5" cy="10.5" r="1.5" fill="black"/><path d="M5 7.5C6.1 6.4 7.2 5.9 8.5 5.9s2.4 0.5 3.5 1.6" stroke="black" stroke-width="1.4" stroke-linecap="round" fill="none"/><path d="M2.5 5C4.3 3.2 6.3 2.3 8.5 2.3s4.2 0.9 6 2.7" stroke="black" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>
+            <svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x="0.5" y="0.5" width="22" height="12" rx="3.5" stroke="black" stroke-opacity="0.35"/><rect x="2" y="2" width="17" height="9" rx="2" fill="black"/><path d="M24 4v5a2.5 2.5 0 000-5z" fill="black" fill-opacity="0.4"/></svg>
+          </div>
+        </div>
+        <div class="sq-top-nav">
+          <div class="sq-tabs-row">
+            <span class="sq-tab square-tab" data-tab="square-follow">关注</span>
+            <span class="sq-tab square-tab" data-tab="square-discover">发现</span>
+            <span class="sq-tab square-tab is-active" data-tab="square-nearby">附近</span>
+          </div>
+          <div class="sq-search">
+            <input type="text" placeholder="游戏">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="6" stroke="#c4c5c7" stroke-width="1.5"/><path d="M13.5 13.5L17 17" stroke="#c4c5c7" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+        <div class="filter-row">
+          <button class="filter-pill is-active">全部</button>
+          <button class="filter-pill">线下活动</button>
+          <button class="filter-pill">找搭子</button>
+          <button class="filter-pill">同人二创</button>
+          <button class="filter-pill">二次元</button>
+        </div>
+      </div>
+
+      <div class="page-body">
+        <div class="posts-masonry">
+          <div class="masonry-col">
+            <div class="post-card">
+              <img class="post-card__img" src="../assets/images/nearby_card_01.png" alt="英雄联盟演唱会" style="height:225.85px;">
+              <div class="post-card__body">
+                <p class="post-card__title">英雄联盟S赛演唱会现场，太燃了！</p>
+                <div class="post-card__foot">
+                  <div class="post-card__author">
+                    <img class="post-card__avatar" src="../assets/images/friend_cuipi.jpg" alt="">
+                    <span class="post-card__name">小临川</span>
+                  </div>
+                  <div class="post-card__likes">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10.5C6 10.5 1 7 1 4a2.5 2.5 0 015 0 2.5 2.5 0 015 0c0 3-5 6.5-5 6.5z" stroke="#bbb" stroke-width="1.2" fill="none"/></svg>
+                    <span>312</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="post-card">
+              <img class="post-card__img" src="../assets/images/nearby_card_03.png" alt="无畏巡回杭州站" style="height:178.9px;">
+              <div class="post-card__body">
+                <p class="post-card__title">大富翁上线！组队一起买地图</p>
+                <div class="post-card__foot">
+                  <div class="post-card__author">
+                    <img class="post-card__avatar" src="../assets/images/friend_douhua.jpg" alt="">
+                    <span class="post-card__name">七七</span>
+                  </div>
+                  <div class="post-card__likes">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10.5C6 10.5 1 7 1 4a2.5 2.5 0 015 0 2.5 2.5 0 015 0c0 3-5 6.5-5 6.5z" stroke="#bbb" stroke-width="1.2" fill="none"/></svg>
+                    <span>89</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="masonry-col">
+            <div class="post-card">
+              <img class="post-card__img" src="../assets/images/nearby_card_02.png" alt="杭州周末大富翁" style="height:253.61px;">
+              <div class="post-card__body">
+                <p class="post-card__title">无畏契约夜场演唱会，灯光绝美</p>
+                <div class="post-card__foot">
+                  <div class="post-card__author">
+                    <img class="post-card__avatar" src="../assets/images/friend_luc.jpg" alt="">
+                    <span class="post-card__name">星元季</span>
+                  </div>
+                  <div class="post-card__likes">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10.5C6 10.5 1 7 1 4a2.5 2.5 0 015 0 2.5 2.5 0 015 0c0 3-5 6.5-5 6.5z" stroke="#bbb" stroke-width="1.2" fill="none"/></svg>
+                    <span>204</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="post-card">
+              <img class="post-card__img" src="../assets/images/nearby_card_04.png" alt="全城逃脱" style="height:225.85px;">
+              <div class="post-card__body">
+                <p class="post-card__title">全城大逃脱线下活动，快来组队！</p>
+                <div class="post-card__foot">
+                  <div class="post-card__author">
+                    <img class="post-card__avatar" src="../assets/images/friend_liangshuf.jpg" alt="">
+                    <span class="post-card__name">生菜大王</span>
+                  </div>
+                  <div class="post-card__likes">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10.5C6 10.5 1 7 1 4a2.5 2.5 0 015 0 2.5 2.5 0 015 0c0 3-5 6.5-5 6.5z" stroke="#bbb" stroke-width="1.2" fill="none"/></svg>
+                    <span>97</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav-bar">
+        <button class="nav-bar__item" data-nav="home" type="button"><div class="nav-bar__icon-wrap"><svg class="nav-bar__home-bg" xmlns="http://www.w3.org/2000/svg" width="17" height="18" viewBox="0 0 17 18" fill="none"><path d="M0 8.29943V13.9938C0 15.1865 0 15.7832 0.220009 16.2388C0.413535 16.6395 0.72211 16.965 1.10193 17.1691C1.5333 17.401 2.09828 17.401 3.22657 17.401H12.9219C14.0502 17.401 14.6143 17.401 15.0457 17.1691C15.4255 16.965 15.7351 16.6395 15.9286 16.2388C16.1484 15.7837 16.1484 15.1879 16.1484 13.9975V8.29943C16.1484 7.73048 16.148 7.44585 16.0824 7.1811C16.0243 6.94648 15.9289 6.72446 15.7998 6.52382C15.6541 6.29742 15.4516 6.10967 15.0457 5.73502L10.2012 1.26295C9.44765 0.567342 9.07089 0.219716 8.64687 0.0874254C8.27324 -0.0291418 7.875 -0.0291418 7.50137 0.0874254C7.07767 0.219616 6.70145 0.566913 5.94905 1.26147L1.10291 5.73502C0.697048 6.10968 0.494588 6.29742 0.34891 6.52382C0.219813 6.72446 0.123685 6.94648 0.0655741 7.1811C0 7.44585 0 7.73047 0 8.29943Z" fill="url(#home-nav-grad-nb)"/><defs><linearGradient id="home-nav-grad-nb" x1="7.38776e-08" y1="5.42379" x2="8.658" y2="16.963" gradientUnits="userSpaceOnUse"><stop stop-color="#00FEF1" stop-opacity="0"/><stop offset="0.535122" stop-color="#00FEF1"/><stop offset="1" stop-color="#00F1FE"/></linearGradient></defs></svg><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M8.54426 12.4361H15.4552M2.78516 16.8132V10.6533C2.78516 10.0378 2.78516 9.72994 2.85999 9.44355C2.92631 9.18975 3.03601 8.94958 3.18334 8.73254C3.3496 8.48763 3.58065 8.28454 4.04384 7.87926L9.57441 3.04C10.4331 2.28867 10.8624 1.91298 11.346 1.76999C11.7724 1.64389 12.2269 1.64389 12.6533 1.76999C13.1372 1.91309 13.5671 2.28914 14.4271 3.0416L19.9558 7.87926C20.419 8.28454 20.6502 8.48763 20.8164 8.73254C20.9638 8.94958 21.0726 9.18975 21.1389 9.44355C21.2138 9.72994 21.2143 10.0378 21.2143 10.6533V16.8172C21.2143 18.1048 21.2143 18.7494 20.9635 19.2417C20.7426 19.6751 20.3893 20.0272 19.9558 20.2481C19.4635 20.4989 18.8197 20.4989 17.532 20.4989H6.46743C5.17979 20.4989 4.53501 20.4989 4.04271 20.2481C3.60925 20.0272 3.2571 19.6751 3.03624 19.2417C2.78516 18.7489 2.78516 18.1033 2.78516 16.8132Z" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="nav-bar__label">主页</span></button>
+        <button class="nav-bar__item is-active" data-nav="square" type="button"><div class="nav-bar__icon-wrap"><svg class="nav-bar__square-bg" xmlns="http://www.w3.org/2000/svg" width="20" height="18" viewBox="0 0 20 18" fill="none"><path d="M3.41817 1.97675C0.309024 4.61986 0.812901 8.38184 1.07572 9.88598C-0.363515 11.5546 -0.228273 13.6741 0.715634 15.1464C1.65954 16.6186 6.29929 18.7491 13.3558 13.6722C20.0624 8.847 19.6959 4.1789 18.5317 2.80689C17.6267 1.74025 16.2503 0.929622 13.5098 1.42453C12.0701 -0.137021 6.91006 -0.991729 3.41817 1.97675Z" fill="url(#sq-nav-grad-a-nb)"/><path d="M8.81691 16.6464L17.5696 11.3153C17.9402 12.1704 18.0053 14.3055 15.3007 16.005C12.5962 17.7046 9.8513 17.1408 8.81691 16.6464Z" fill="url(#sq-nav-grad-b-nb)"/><defs><linearGradient id="sq-nav-grad-a-nb" x1="-0.391576" y1="5.68445" x2="7.82353" y2="18.0214" gradientUnits="userSpaceOnUse"><stop stop-color="#00FEF1" stop-opacity="0"/><stop offset="0.535122" stop-color="#00FEF1"/><stop offset="1" stop-color="#00F1FE"/></linearGradient><linearGradient id="sq-nav-grad-b-nb" x1="11.1328" y1="15.7245" x2="13.003" y2="17.9791" gradientUnits="userSpaceOnUse"><stop stop-color="#00FEF1" stop-opacity="0"/><stop offset="0.535122" stop-color="#00FEF1"/><stop offset="1" stop-color="#00F1FE"/></linearGradient></defs></svg><svg width="25" height="24" viewBox="0 0 25 24" fill="none"><path d="M8.30566 20.8534C10.2555 21.72 14.3235 22.6502 18.4181 19.7465C22.5128 16.8428 21.9975 13.1182 21.9975 11.7532M14.1064 13.0376C14.9193 12.5905 16.8256 11.2451 17.9474 9.44044M2.30374 11.6971C2.1786 9.67018 2.40972 6.24929 5.51093 3.89228C9.06424 1.19165 13.8445 1.78322 16.0561 3.18553C16.634 3.55191 17.3008 3.82426 17.9849 3.80949C20.3676 3.75801 21.6177 4.65761 22.4503 5.75524C23.6746 7.36925 23.7995 12.6396 15.9632 17.6514C7.71806 22.9248 2.63318 20.2443 1.66262 18.5311C0.820379 17.0444 0.69272 15.0473 1.7981 13.3772C2.12905 12.8772 2.34069 12.2956 2.30374 11.6971Z" stroke="#222222" stroke-width="2" stroke-linecap="round"/></svg></div><span class="nav-bar__label">广场</span></button>
+        <button class="nav-bar__item nav-bar__item--add" data-nav="add" type="button"><div class="nav-bar__add-circle"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><line x1="11" y1="4" x2="11" y2="18" stroke="#222" stroke-width="2" stroke-linecap="round"/><line x1="4" y1="11" x2="18" y2="11" stroke="#222" stroke-width="2" stroke-linecap="round"/></svg></div></button>
+        <button class="nav-bar__item" data-nav="chat" type="button"><div class="nav-bar__icon-wrap"><svg class="nav-bar__chat-bg" xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none"><path d="M3.35664 18.5662V15.259C1.53033 14.025 0 11.6585 0 8.277C0 3.59102 3.24806 0 8.81242 0C14.3768 0 17.403 4.03511 17.403 8.27723C17.403 15.3788 10.5346 16.2657 7.16579 15.911L3.35664 18.5662Z" fill="url(#chat-nav-grad-nb)"/><defs><linearGradient id="chat-nav-grad-nb" x1="-4.25756e-09" y1="5.76806" x2="9.17269" y2="18.1566" gradientUnits="userSpaceOnUse"><stop stop-color="#00FEF1" stop-opacity="0"/><stop offset="0.535122" stop-color="#00FEF1"/><stop offset="1" stop-color="#00F1FE"/></linearGradient></defs></svg><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M6.70703 18.9277L8.5498 17.4639L8.6416 17.3975C8.83156 17.2736 9.05524 17.2033 9.28906 17.2021L9.40625 17.208L9.7627 17.2363C11.59 17.3562 14.1128 17.1529 16.1895 16.166C17.2833 15.6461 18.2261 14.9225 18.8965 13.9395C19.5622 12.9631 20 11.6721 20 9.94531C19.9998 5.9162 16.973 2.00019 11.1279 2C8.13383 2 5.85964 2.9057 4.34473 4.30762C2.83369 5.70604 2.00003 7.6681 2 9.94531C2 13.0532 4.02261 15.1736 6.00293 16.0771C6.42487 16.2698 6.70703 16.6925 6.70703 17.1709V18.9277ZM22 9.94531C22 12.0299 21.4648 13.7232 20.5488 15.0664C19.6373 16.4031 18.3881 17.3357 17.0479 17.9727C14.5314 19.1685 11.5952 19.3699 9.54688 19.2246L6.49121 21.6543C5.77047 22.2267 4.70717 21.7134 4.70703 20.793V17.666C2.34416 16.4086 0 13.7679 0 9.94531C3.32129e-05 7.15841 1.0326 4.64796 2.98633 2.83984C4.93649 1.03514 7.72731 0 11.1279 0C18.0714 0.000200193 21.9998 4.80548 22 9.94531Z" fill="black"/><path d="M11 8.8885C11 8.39961 11.3963 8.00328 11.8852 8.00328C12.3741 8.00328 12.7704 8.39961 12.7704 8.8885V10.589C12.7704 11.0779 12.3741 11.4742 11.8852 11.4742C11.3963 11.4742 11 11.0779 11 10.589V8.8885Z" fill="#222222"/><path d="M15.6641 8.8885C15.6641 8.39961 16.0604 8.00328 16.5493 8.00328C17.0382 8.00328 17.4345 8.39961 17.4345 8.8885V10.589C17.4345 11.0779 17.0382 11.4742 16.5493 11.4742C16.0604 11.4742 15.6641 11.0779 15.6641 10.589V8.8885Z" fill="#222222"/></svg></div><span class="nav-bar__label">聊天</span></button>
+        <button class="nav-bar__item" data-nav="profile" type="button"><div class="nav-bar__icon-wrap"><svg class="nav-bar__profile-bg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="8.96918" cy="8.96918" r="8.96918" fill="url(#profile-nav-grad-nb)"/><defs><linearGradient id="profile-nav-grad-nb" x1="-4.38854e-09" y1="5.57302" x2="8.68035" y2="18.0802" gradientUnits="userSpaceOnUse"><stop stop-color="#00FEF1" stop-opacity="0"/><stop offset="0.535122" stop-color="#00FEF1"/><stop offset="1" stop-color="#00F1FE"/></linearGradient></defs></svg><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5.89638 13.4949C6.48784 14.4711 8.32755 16.4235 10.9547 16.4235C13.5818 16.4235 15.4811 14.4711 16.1023 13.4949M21 11C21 16.5228 16.5228 21 11 21C5.47715 21 1 16.5228 1 11C1 5.47715 5.47715 1 11 1C16.5228 1 21 5.47715 21 11Z" stroke="#222222" stroke-width="2" stroke-linecap="round"/></svg></div><span class="nav-bar__label">我的</span></button>
+      </nav>
+    </div>
+  </div>
+
+  <script src="../js/utils/auth.js"></script>
+  <script>Auth.guard();</script>
+  <script src="../js/utils/assets.js"></script>
+  <script src="../js/utils/router.js"></script>
+  <script src="../js/utils/nav.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.square-tab[data-tab]').forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          Router.go(tab.dataset.tab + '.html');
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+

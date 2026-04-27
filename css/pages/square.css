@@ -1,0 +1,49 @@
+/* Shared styles for square-discover / square-follow / square-nearby */
+.square-page {
+  background: var(--c-bg);
+}
+
+/* Tab bar inside the page (not nav-bar) */
+.square-tabs {
+  display: flex;
+  gap: 0;
+  padding: 0 16px;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 16px;
+}
+
+.square-tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--c-text-muted);
+  cursor: pointer;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.square-tab.is-active {
+  color: var(--c-dark);
+  font-weight: 600;
+}
+
+.square-tab.is-active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 2px;
+  background: var(--c-primary);
+  border-radius: 1px;
+}
+
+.square-content {
+  padding: 0 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}

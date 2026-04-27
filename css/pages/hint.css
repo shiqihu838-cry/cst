@@ -1,0 +1,14 @@
+/* hint.html shares most styles with login.html */
+/* Overlay + modal 挂在 .phone-frame 下（见 hint.html），相对机壳铺满含顶栏 */
+.hint-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--c-overlay);
+  z-index: 100;
+  border-radius: inherit;
+}
+
+.phone-frame > .page.login-page {
+  position: relative;
+  z-index: 0;
+}

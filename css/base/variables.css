@@ -1,0 +1,45 @@
+:root {
+  /* Brand colors */
+  --c-primary: #00fef1;
+  --c-primary-dark: #00d4cb;
+  --c-bg: #ffffff;
+  --c-bg-gray: #f7f7f7;
+
+  /* Text */
+  --c-dark: #222222;
+  --c-text: rgba(34, 34, 34, 0.9);
+  --c-text-sub: rgba(34, 34, 34, 0.8);
+  --c-text-muted: rgba(34, 34, 34, 0.6);
+  --c-text-gray: #8c8c8c;
+  --c-text-placeholder: #c4c5c7;
+  --c-link: #0d5096;
+  --c-white: #ffffff;
+
+  /* Overlays */
+  --c-overlay: rgba(34, 34, 34, 0.45);
+
+  /* Typography */
+  --font-main: "PingFang SC", -apple-system, "Helvetica Neue", sans-serif;
+  --font-display: "YouSheBiaoTiHei", "PingFang SC", sans-serif;
+  --font-system: "SF Pro", -apple-system, sans-serif;
+
+  /* Screen dimensions */
+  --screen-w: 402px;
+  --screen-h: 889px;
+  --status-bar-h: 62px;
+  --nav-bar-h: 82.872px;
+
+  /* Spacing */
+  --page-side: 16px;
+
+  /* Border radius */
+  --r-sm: 5px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-xl: 22px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.08);
+  --shadow-modal: 0 8px 40px rgba(0, 0, 0, 0.2);
+}

@@ -1,0 +1,27 @@
+.status-bar.status-bar--image {
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  padding: 0 !important;
+  width: 100%;
+  height: 62px !important;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.status-bar__header-image {
+  width: 100%;
+  height: 62px;
+  object-fit: fill;
+  display: block;
+}
+
+/* In native shell, let iOS draw realtime system status bar. */
+.native-shell .status-bar {
+  display: none !important;
+}
+
+.native-shell .page-header {
+  padding-top: env(safe-area-inset-top, 0px);
+  box-sizing: border-box;
+}

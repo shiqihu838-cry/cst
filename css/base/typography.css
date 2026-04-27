@@ -1,0 +1,11 @@
+/* Put the font file at: assets/fonts/YouSheBiaoTiHei.TTF */
+@font-face {
+  font-family: "YouSheBiaoTiHei";
+  src: url("../../assets/fonts/YouSheBiaoTiHei.TTF") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* PingFang SC is pre-installed on macOS/iOS.
+   On Windows/Android, the system sans-serif provides an acceptable fallback. */
