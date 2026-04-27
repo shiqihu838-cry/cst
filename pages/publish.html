@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>发布内容 - Vibe</title>
+  <link rel="stylesheet" href="../css/base/variables.css">
+  <link rel="stylesheet" href="../css/base/reset.css">
+  <link rel="stylesheet" href="../css/base/typography.css">
+  <link rel="stylesheet" href="../css/components/status-bar.css">
+  <link rel="stylesheet" href="../css/components/more-arrow.css">
+  <link rel="stylesheet" href="../css/pages/publish.css">
+</head>
+<body>
+  <div class="phone-frame">
+    <div class="page publish-page">
+      <header class="page-header">
+        <div class="status-bar status-bar--use-header-image"></div>
+        <div class="publish-topbar">
+          <button class="publish-topbar__back" type="button" aria-label="返回">
+            <svg width="12" height="20" viewBox="0 0 12 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 2L2 10L10 18" stroke="#98999B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <main class="page-body publish-body">
+        <section class="publish-editor">
+          <button class="publish-cover" type="button" aria-label="添加封面">
+            <img class="publish-cover__image" alt="" hidden>
+            <span class="publish-cover__plus" aria-hidden="true"></span>
+          </button>
+          <input class="publish-title" type="text" placeholder="添加标题" />
+          <textarea class="publish-content" placeholder="添加正文或发语音"></textarea>
+        </section>
+
+        <section class="publish-section">
+          <button class="publish-row" type="button">
+            <div class="publish-row__left">
+              <span>分区和标签</span>
+            </div>
+            <svg class="more-arrow" viewBox="0 0 8 14" fill="none" aria-hidden="true">
+              <path d="M1 1L7 7L1 13"/>
+            </svg>
+          </button>
+          <div class="publish-tags">
+            <button type="button"># 话题</button>
+            <button type="button">手游</button>
+            <button type="button">FPS</button>
+          </div>
+        </section>
+
+        <div class="publish-gap-block" aria-hidden="true"></div>
+
+        <section class="publish-section publish-section--rows">
+          <button class="publish-row" type="button">
+            <div class="publish-row__left"><span>公开可见</span></div>
+            <svg class="more-arrow" viewBox="0 0 8 14" fill="none" aria-hidden="true">
+              <path d="M1 1L7 7L1 13"/>
+            </svg>
+          </button>
+          <button class="publish-row" type="button">
+            <div class="publish-row__left"><span>更多设置</span></div>
+            <svg class="more-arrow" viewBox="0 0 8 14" fill="none" aria-hidden="true">
+              <path d="M1 1L7 7L1 13"/>
+            </svg>
+          </button>
+          <div class="publish-gap-block" aria-hidden="true"></div>
+          <button class="publish-row" type="button">
+            <div class="publish-row__left"><span>动态</span></div>
+            <svg class="more-arrow" viewBox="0 0 8 14" fill="none" aria-hidden="true">
+              <path d="M1 1L7 7L1 13"/>
+            </svg>
+          </button>
+        </section>
+      </main>
+
+      <footer class="publish-footer">
+        <button class="publish-footer__draft" type="button">存草稿</button>
+        <button class="publish-footer__submit" type="button">发布</button>
+      </footer>
+    </div>
+  </div>
+
+  <script src="../js/utils/assets.js"></script>
+  <script src="../js/utils/router.js"></script>
+  <script src="../js/pages/publish.js"></script>
+</body>
+</html>

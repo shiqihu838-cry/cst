@@ -53,8 +53,29 @@
     document.body.appendChild(input);
     input.click();
     input.addEventListener('change', function () {
+      if (typeof options.onPicked === 'function' && input.files && input.files.length > 0) {
+        options.onPicked(input.files);
+      }
       document.body.removeChild(input);
     }, { once: true });
+  }
+
+  function savePickedImageAndGoPublish(file) {
+    var reader = new FileReader();
+    reader.onload = function () {
+      var dataUrl = String(reader.result || '');
+      try {
+        sessionStorage.setItem('vibe_publish_cover_dataurl', dataUrl);
+      } catch (e) {
+        // Fallback channel for large images when sessionStorage write fails.
+        window.name = 'vibe_publish_cover_dataurl:' + dataUrl;
+      }
+      Router.go('publish.html');
+    };
+    reader.onerror = function () {
+      Router.go('publish.html');
+    };
+    reader.readAsDataURL(file);
   }
 
   function bindAddSheet(sheetEl) {
@@ -77,14 +98,25 @@
 
       var action = actionEl.getAttribute('data-sheet-action');
       if (action === 'album') {
-        openPicker({ accept: 'image/*' });
+        openPicker({
+          accept: 'image/*',
+          onPicked: function (files) {
+            if (files && files[0]) savePickedImageAndGoPublish(files[0]);
+          }
+        });
         closeSheet();
       } else if (action === 'camera') {
-        openPicker({ accept: 'image/*', capture: 'environment' });
+        openPicker({
+          accept: 'image/*',
+          capture: 'environment',
+          onPicked: function (files) {
+            if (files && files[0]) savePickedImageAndGoPublish(files[0]);
+          }
+        });
         closeSheet();
       } else if (action === 'text') {
         closeSheet();
-        Router.go('hint.html');
+        Router.go('publish.html');
       }
     });
 

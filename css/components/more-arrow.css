@@ -1,0 +1,14 @@
+.more-arrow {
+  width: 8px;
+  height: 14px;
+  color: #8d8e90;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.more-arrow path {
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

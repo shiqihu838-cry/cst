@@ -28,7 +28,7 @@
       position: relative;
       z-index: 3;
     }
-    .sq-search input { border: none; outline: none; font-size: 15px; color: #c4c5c7; background: transparent; min-width: 0; width: 100%; height: 21px; line-height: 21px; padding: 0; margin: 0; font-family: "PingFang SC", sans-serif; }
+    .sq-search input { border: none; outline: none; font-size: 15px; color: #c4c5c7; background: transparent; min-width: 0; width: 100%; height: 21px; line-height: 21px; padding: 0; margin: 0; font-family: "PingFang SC", sans-serif; pointer-events: none; caret-color: transparent; user-select: none; }
     .sq-search input:focus::placeholder { color: transparent; }
     .page-body { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 8px; }
     .page-body::-webkit-scrollbar { display: none; }
@@ -55,12 +55,12 @@
     .game-rank-scroll::-webkit-scrollbar { display: none; }
     .game-rank-card { flex-shrink: 0; width: 136.2px; border-radius: 12px; overflow: hidden; background: #fff; }
     .game-rank-image { width: 136.2px; height: 80px; border-radius: 12px 12px 0 0; object-fit: cover; display: block; }
-    .game-rank-meta { display: flex; align-items: center; gap: 6px; padding: 8px 6px 7px; height: 49.2px; }
-    .game-rank-number { width: 47px; font-size: 22px; font-family: 'YouSheBiaoTiHei', sans-serif; line-height: 1; color: #111; position: relative; flex-shrink: 0; font-style: normal; text-align: center; }
-    .game-rank-number::after { content: ''; position: absolute; left: 50%; transform: translateX(-50%); bottom: 2px; width: 35.15px; height: 6.58px; background: #00fff6; z-index: -1; border-radius: 1px; }
-    .game-rank-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-    .game-rank-name { font-size: 14px; font-family: 'PingFang SC', sans-serif; font-weight: 600; line-height: 1.1; color: #111; white-space: nowrap; }
-    .game-rank-collect { font-size: 12px; color: #a3a3a3; line-height: 1.1; white-space: nowrap; }
+    .game-rank-meta { display: flex; align-items: center; gap: 4px; padding: 8px 4px 7px; height: 49.2px; }
+    .game-rank-number { width: 47px; font-size: 22px; font-family: 'YouSheBiaoTiHei', sans-serif; line-height: 1; color: #111; position: relative; flex-shrink: 0; font-style: normal; display: inline-flex; justify-content: center; align-items: center; z-index: 1; }
+    .game-rank-number::after { content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 35.15px; height: 5px; background: #00fff6; z-index: -1; border-radius: 1px; pointer-events: none; }
+    .game-rank-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+    .game-rank-name { font-size: 14px; font-family: 'PingFang SC', sans-serif; font-weight: 600; line-height: 1.1; color: #111; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .game-rank-collect { font-size: 11px; color: #a3a3a3; line-height: 1.1; white-space: nowrap; overflow: visible; text-overflow: clip; }
 
     .topics-section { width: 379px; margin: 0 auto 10px; background: #fff; border-radius: 13px; padding: 10px 10px 12px; display: flex; flex-direction: column; gap: 10px; }
     .topics-header { width: 369px; margin: 0; display: flex; align-items: center; justify-content: flex-start; }
@@ -80,7 +80,7 @@
     .filter-pills { display: flex; flex-wrap: nowrap; align-items: flex-start; gap: 50px; padding: 0 15px; width: max-content; min-width: 100%; }
     .filter-pill { position: relative; height: 27px; padding: 0; font-size: 16px; font-family: "PingFang SC", sans-serif; font-style: normal; font-weight: 500; line-height: 22.4px; color: rgba(34, 34, 34, 0.6); background: transparent; border: none; cursor: pointer; white-space: nowrap; flex: 0 0 auto; }
     .filter-pill.is-active { font-weight: 600; color: rgba(34, 34, 34, 0.6); }
-    .filter-pill.is-active::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 3px; border-radius: 2px; background: #00fff6; }
+    .filter-pill.is-active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -2px; width: 100%; height: 4px; border-radius: 2px; background: #00fff6; }
   </style>
 </head>
 <body>
@@ -97,7 +97,7 @@
             <span class="sq-tab square-tab" data-tab="square-nearby">附近</span>
           </div>
           <div class="sq-search">
-            <input type="text" placeholder="游戏">
+            <input type="text" placeholder="游戏" readonly tabindex="-1" aria-hidden="true">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="6" stroke="#c4c5c7" stroke-width="1.5"/><path d="M13.5 13.5L17 17" stroke="#c4c5c7" stroke-width="1.5" stroke-linecap="round"/></svg>
           </div>
         </div>
@@ -123,7 +123,7 @@
                 <div class="game-rank-number">01</div>
                 <div class="game-rank-info">
                   <div class="game-rank-name">合成西瓜</div>
-                  <div class="game-rank-collect">✦ 2.89w人收藏</div>
+                  <div class="game-rank-collect">2.89w人收藏</div>
                 </div>
               </div>
             </div>
@@ -133,7 +133,7 @@
                 <div class="game-rank-number">02</div>
                 <div class="game-rank-info">
                   <div class="game-rank-name">拆弹蛙</div>
-                  <div class="game-rank-collect">✦ 2.53w人收藏</div>
+                  <div class="game-rank-collect">2.53w人收藏</div>
                 </div>
               </div>
             </div>
@@ -143,7 +143,7 @@
                 <div class="game-rank-number">03</div>
                 <div class="game-rank-info">
                   <div class="game-rank-name">牛了个牛</div>
-                  <div class="game-rank-collect">✦ 2.5w人收藏</div>
+                  <div class="game-rank-collect">2.5w人收藏</div>
                 </div>
               </div>
             </div>
@@ -371,6 +371,15 @@
       document.querySelectorAll('.square-tab[data-tab]').forEach(function (tab) {
         tab.addEventListener('click', function () {
           Router.go(tab.dataset.tab + '.html');
+        });
+      });
+
+      document.querySelectorAll('.filter-pill').forEach(function (pill) {
+        pill.addEventListener('click', function () {
+          document.querySelectorAll('.filter-pill.is-active').forEach(function (activePill) {
+            activePill.classList.remove('is-active');
+          });
+          pill.classList.add('is-active');
         });
       });
     });
