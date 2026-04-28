@@ -87,16 +87,27 @@ ol {
 
 /* Real phone viewport: render full-bleed app layout instead of desktop mock frame */
 @media (max-width: 768px) {
+  html,
+  body {
+    height: -webkit-fill-available;
+  }
+
   body {
     display: block;
+    min-height: 100vh;
+    min-height: 100svh;
     min-height: 100dvh;
+    min-height: -webkit-fill-available;
     background: #fff !important;
   }
 
   .phone-frame {
     width: 100vw !important;
     max-width: 100vw !important;
+    height: 100vh !important;
+    height: 100svh !important;
     height: 100dvh !important;
+    min-height: -webkit-fill-available !important;
     border-radius: 0 !important;
     box-shadow: none !important;
     margin: 0 !important;
