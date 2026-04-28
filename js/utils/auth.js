@@ -5,6 +5,22 @@
  * but is cleared when the tab is closed. Splash.js explicitly clears
  * the flag so every visit to the root forces re-authentication.
  */
+(function setupDynamicViewportHeight() {
+  function applyViewportHeight() {
+    var viewport = window.visualViewport;
+    var height = viewport ? viewport.height : window.innerHeight;
+    if (!height) return;
+    document.documentElement.style.setProperty('--app-vh', (height * 0.01) + 'px');
+  }
+
+  applyViewportHeight();
+  window.addEventListener('resize', applyViewportHeight);
+  window.addEventListener('orientationchange', applyViewportHeight);
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', applyViewportHeight);
+  }
+})();
+
 window.Auth = {
   _KEY: 'vibe_authed',
 
