@@ -90,3 +90,24 @@
   border: 2px solid var(--c-primary);
   background: var(--c-bg);
 }
+
+/* 顶栏：左侧略收紧，返回按钮略缩小，减轻箭头左右留白感 */
+.auth-page .auth-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 20px 4px 12px;
+}
+
+.auth-page .auth-nav__back {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}

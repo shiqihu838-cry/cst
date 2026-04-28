@@ -1,0 +1,15 @@
+/* 登录页图一「帮助」：黑色、常规、15/21、苹方（auth 顶栏与 .login-help a 共用） */
+.auth-page .auth-nav__help,
+.login-help a {
+  font-family: "PingFang SC", -apple-system, "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21px;
+  color: #000000;
+  cursor: pointer;
+}
+
+.login-help a {
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}

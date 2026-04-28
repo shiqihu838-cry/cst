@@ -21,13 +21,14 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: #d0d0d0;
+  background: #fff !important;
 }
 
 .phone-frame {
   width: var(--screen-w);
   height: var(--screen-h);
   background: var(--c-bg);
+  background-color: #fff !important;
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
@@ -89,7 +90,7 @@ ol {
   body {
     display: block;
     min-height: 100dvh;
-    background: #fff;
+    background: #fff !important;
   }
 
   .phone-frame {

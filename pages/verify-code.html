@@ -8,21 +8,177 @@
   <link rel="stylesheet" href="../css/base/reset.css">
   <link rel="stylesheet" href="../css/base/typography.css">
   <link rel="stylesheet" href="../css/components/status-bar.css">
+  <link rel="stylesheet" href="../css/components/auth-nav-help.css">
   <link rel="stylesheet" href="../css/pages/auth.css">
   <style>
-    .auth-page { background: #fff; }
-    .auth-nav { display: flex; align-items: center; justify-content: space-between; padding: 8px 20px 4px; }
-    .auth-nav__back { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; background: none; border: none; }
-    .auth-nav__help { font-size: 14px; color: #999; cursor: pointer; }
-    .auth-content { padding: 20px 24px 0; }
-    .auth-headline { font-size: 22px; font-weight: 700; color: #111; margin-bottom: 10px; }
-    .auth-phone-hint { font-size: 14px; color: #111; font-weight: 600; margin-bottom: 32px; }
-    .code-boxes { display: flex; gap: 12px; margin-bottom: 36px; }
-    .code-box { flex: 1; height: 64px; border: 1.5px solid #e0e0e0; border-radius: 10px; text-align: center; font-size: 28px; font-weight: 700; color: #111; outline: none; background: #fff; }
-    .code-box:focus { border-color: var(--c-primary); }
-    .auth-btn-primary { width: 100%; height: 50px; background: var(--c-primary); border: none; border-radius: 25px; font-size: 16px; font-weight: 600; color: #111; cursor: pointer; margin-bottom: 20px; }
-    .auth-resend-row { display: flex; justify-content: space-between; font-size: 13px; color: #999; }
-    .auth-resend-row__link { color: #999; text-decoration: none; cursor: pointer; }
+    /* Figma 385:10190 — 输入验证码 */
+    .auth-page {
+      background: #fff;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: hidden;
+      font-family: "PingFang SC", -apple-system, "Helvetica Neue", sans-serif;
+    }
+    .auth-content {
+      padding: 16px 24px 0;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    /* 385:10202 */
+    .verify-title {
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 28px;
+      letter-spacing: 0;
+      color: #000000;
+      margin: 0 0 2px;
+    }
+    /* Frame 986：短信已发送至 + 号码同一行，间距 2 */
+    .verify-sms-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2px;
+      margin-bottom: 25px;
+    }
+    .verify-sms-row__label {
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 18.2px;
+      color: rgba(34, 34, 34, 0.5);
+    }
+    .verify-sms-row__phone {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 22.4px;
+      letter-spacing: 0.04em;
+      color: #222222;
+    }
+    /* Frame 988：四格间距 32 */
+    .verify-code-boxes {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      gap: 32px;
+      margin-bottom: 0;
+    }
+    .verify-code-box {
+      flex: 1;
+      min-width: 0;
+      height: 64px;
+      box-sizing: border-box;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 10px;
+      text-align: center;
+      font-family: inherit;
+      font-size: 28px;
+      font-weight: 600;
+      color: #222222;
+      outline: none;
+      background: #fff;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .verify-code-box:focus {
+      border-color: var(--c-primary);
+    }
+    /* 与 OTP 区块间距 32 */
+    .verify-submit {
+      width: 100%;
+      height: 50px;
+      margin-top: 32px;
+      margin-bottom: 0;
+      border: none;
+      border-radius: 12px;
+      background: var(--c-primary);
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 22.4px;
+      color: #000000;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .verify-submit:active {
+      opacity: 0.92;
+    }
+    /* 与主按钮间距 25 */
+    .verify-resend-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 25px;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 18.2px;
+    }
+    .verify-resend-row__help {
+      color: #0d5096;
+      cursor: pointer;
+    }
+    .verify-resend-row__timer {
+      color: rgba(34, 34, 34, 0.5);
+    }
+    .verify-resend-row__timer--ready {
+      color: #0d5096;
+      cursor: pointer;
+    }
+    .verify-footer {
+      margin-top: auto;
+      flex-shrink: 0;
+      width: 100%;
+      padding-bottom: env(safe-area-inset-bottom, 0);
+    }
+    /* 与 phone-verify / phone-password：原键盘图 + 透明热区，高约 308 */
+    .auth-keypad-wrap {
+      position: relative;
+      width: 100%;
+      height: 308px;
+      flex-shrink: 0;
+      overflow: hidden;
+      line-height: 0;
+      background: #d1d2d6;
+    }
+    .auth-keypad-wrap__img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: bottom center;
+      pointer-events: none;
+      user-select: none;
+    }
+    .auth-keypad-wrap__hits {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      gap: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .auth-keypad-hit {
+      margin: 0;
+      padding: 0;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .auth-keypad-hit:focus {
+      outline: none;
+    }
+    .auth-keypad-hit-skip {
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
@@ -40,29 +196,50 @@
         </div>
         <div class="auth-nav">
           <button class="auth-nav__back" id="btn-back" type="button">
-            <svg width="10" height="17" viewBox="0 0 10 17" fill="none"><path d="M9 1L1 8.5L9 16" stroke="#222" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="16" viewBox="0 0 9 16" fill="none" aria-hidden="true"><path d="M8 15L1 8L8 1" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
           <span class="auth-nav__help">帮助</span>
         </div>
       </header>
 
-      <div class="page-body">
-        <div class="auth-content">
-          <h1 class="auth-headline">请输入验证码</h1>
-          <p class="auth-phone-hint">+86 130 4094 6556</p>
+      <div class="auth-content">
+        <h1 class="verify-title">请输入验证码</h1>
+        <div class="verify-sms-row">
+          <span class="verify-sms-row__label">短信已发送至</span>
+          <span class="verify-sms-row__phone" id="verify-phone-display">+86 130 4094 6556</span>
+        </div>
 
-          <div class="code-boxes" id="code-boxes">
-            <input class="code-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
-            <input class="code-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
-            <input class="code-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
-            <input class="code-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
-          </div>
+        <div class="verify-code-boxes" id="code-boxes">
+          <input class="verify-code-box" type="text" maxlength="1" inputmode="none" pattern="[0-9]" autocomplete="one-time-code" aria-label="验证码第 1 位">
+          <input class="verify-code-box" type="text" maxlength="1" inputmode="none" pattern="[0-9]" aria-label="验证码第 2 位">
+          <input class="verify-code-box" type="text" maxlength="1" inputmode="none" pattern="[0-9]" aria-label="验证码第 3 位">
+          <input class="verify-code-box" type="text" maxlength="1" inputmode="none" pattern="[0-9]" aria-label="验证码第 4 位">
+        </div>
 
-          <button class="auth-btn-primary" id="btn-submit" type="button">登录</button>
+        <button class="verify-submit" id="btn-submit" type="button">登录</button>
 
-          <div class="auth-resend-row">
-            <span>收不到验证码？</span>
-            <span class="auth-resend-row__link" id="resend-timer">39 秒后重新发送</span>
+        <div class="verify-resend-row">
+          <span class="verify-resend-row__help" role="button" tabindex="0">收不到验证码？</span>
+          <span class="verify-resend-row__timer" id="resend-timer" role="status">60 秒后重新发送</span>
+        </div>
+      </div>
+
+      <div class="verify-footer">
+        <div class="auth-keypad-wrap" id="verify-keypad">
+          <img class="auth-keypad-wrap__img" data-asset="phone_verify_deco" src="" alt="">
+          <div class="auth-keypad-wrap__hits" role="group" aria-label="数字键盘">
+            <button type="button" class="auth-keypad-hit" data-digit="1" aria-label="1"></button>
+            <button type="button" class="auth-keypad-hit" data-digit="2" aria-label="2"></button>
+            <button type="button" class="auth-keypad-hit" data-digit="3" aria-label="3"></button>
+            <button type="button" class="auth-keypad-hit" data-digit="4" aria-label="4"></button>
+            <button type="button" class="auth-keypad-hit" data-digit="5" aria-label="5"></button>
+            <button type="button" class="auth-keypad-hit" data-digit="6" aria-label="6"></button>
+            <button type="button" class="auth-keypad-hit" data-digit="7" aria-label="7"></button>
+            <button type="button" class="auth-keypad-hit" data-digit="8" aria-label="8"></button>
+            <button type="button" class="auth-keypad-hit" data-digit="9" aria-label="9"></button>
+            <span class="auth-keypad-hit-skip" aria-hidden="true"></span>
+            <button type="button" class="auth-keypad-hit" data-digit="0" aria-label="0"></button>
+            <button type="button" class="auth-keypad-hit" data-action="delete" aria-label="删除"></button>
           </div>
         </div>
       </div>
@@ -74,17 +251,39 @@
   <script src="../js/utils/assets.js"></script>
   <script src="../js/utils/router.js"></script>
   <script>
-    var boxes = Array.from(document.querySelectorAll('.code-box'));
+    window.populateAssets && window.populateAssets();
+
+    function formatVerifyPhone(digits) {
+      var d = (digits || '').replace(/\D/g, '').slice(0, 11);
+      if (d.length !== 11) return '+86 130 4094 6556';
+      return '+86 ' + d.slice(0, 3) + ' ' + d.slice(3, 7) + ' ' + d.slice(7, 11);
+    }
+
+    (function initPhoneDisplay() {
+      var el = document.getElementById('verify-phone-display');
+      var raw = '';
+      try {
+        raw = sessionStorage.getItem('vibe_verify_phone') || '';
+      } catch (e) {}
+      if (el) el.textContent = formatVerifyPhone(raw);
+    })();
+
+    var boxes = Array.from(document.querySelectorAll('.verify-code-box'));
+
+    function tryCompleteCode() {
+      if (boxes.every(function(b) { return b.value.length === 1; })) {
+        Auth.setLoggedIn();
+        Router.go('home.html');
+      }
+    }
 
     boxes.forEach(function(box, i) {
       box.addEventListener('input', function() {
+        box.value = (box.value || '').replace(/\D/g, '').slice(0, 1);
         if (box.value.length === 1 && i < boxes.length - 1) {
           boxes[i + 1].focus();
         }
-        if (boxes.every(function(b) { return b.value.length === 1; })) {
-          Auth.setLoggedIn();
-          Router.go('home.html');
-        }
+        tryCompleteCode();
       });
       box.addEventListener('keydown', function(e) {
         if (e.key === 'Backspace' && box.value === '' && i > 0) {
@@ -93,20 +292,121 @@
       });
     });
 
-    document.getElementById('btn-back').addEventListener('click', function() { Router.back(); });
-    document.getElementById('btn-submit').addEventListener('click', function() { Auth.setLoggedIn(); Router.go('home.html'); });
+    (function setupVerifyKeypad() {
+      var pad = document.getElementById('verify-keypad');
+      if (!pad || !boxes.length) return;
 
-    var seconds = 39;
-    var timerEl = document.getElementById('resend-timer');
-    var timer = setInterval(function() {
-      seconds--;
-      if (seconds <= 0) {
-        clearInterval(timer);
-        timerEl.textContent = '重新发送';
-      } else {
-        timerEl.textContent = seconds + ' 秒后重新发送';
+      function firstEmptyIndex() {
+        for (var i = 0; i < boxes.length; i++) {
+          if (!boxes[i].value) return i;
+        }
+        return -1;
       }
-    }, 1000);
+
+      function keypadDigit(d) {
+        var ai = boxes.indexOf(document.activeElement);
+        var i = ai >= 0 ? ai : firstEmptyIndex();
+        if (i < 0) i = boxes.length - 1;
+        var box = boxes[i];
+        box.value = d;
+        box.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+
+      function keypadDelete() {
+        var ai = boxes.indexOf(document.activeElement);
+        if (ai < 0) {
+          for (var j = boxes.length - 1; j >= 0; j--) {
+            if (boxes[j].value) {
+              boxes[j].value = '';
+              boxes[j].focus();
+              return;
+            }
+          }
+          boxes[0].focus();
+          return;
+        }
+        if (boxes[ai].value) {
+          boxes[ai].value = '';
+        } else if (ai > 0) {
+          boxes[ai - 1].value = '';
+          boxes[ai - 1].focus();
+        }
+      }
+
+      pad.addEventListener('click', function(e) {
+        var hit = e.target.closest('.auth-keypad-hit');
+        if (!hit) return;
+        e.preventDefault();
+        if (hit.getAttribute('data-action') === 'delete') {
+          keypadDelete();
+          return;
+        }
+        var digit = hit.getAttribute('data-digit');
+        if (digit != null && digit !== '') keypadDigit(digit);
+      });
+    })();
+
+    document.getElementById('btn-back').addEventListener('click', function() { Router.back(); });
+    document.getElementById('btn-submit').addEventListener('click', function() {
+      Auth.setLoggedIn();
+      Router.go('home.html');
+    });
+
+    var RESEND_COOLDOWN_SEC = 60;
+    var seconds = RESEND_COOLDOWN_SEC;
+    var timerEl = document.getElementById('resend-timer');
+    var timerId = null;
+
+    function countdownLabel(s) {
+      return s + ' 秒后重新发送';
+    }
+
+    function setResendReady(ready) {
+      if (!timerEl) return;
+      if (ready) {
+        timerEl.textContent = '重新发送';
+        timerEl.classList.add('verify-resend-row__timer--ready');
+        timerEl.setAttribute('role', 'button');
+        timerEl.setAttribute('tabindex', '0');
+      } else {
+        timerEl.classList.remove('verify-resend-row__timer--ready');
+        timerEl.setAttribute('role', 'status');
+        timerEl.removeAttribute('tabindex');
+      }
+    }
+
+    function startResendCooldown() {
+      if (timerId) clearInterval(timerId);
+      seconds = RESEND_COOLDOWN_SEC;
+      setResendReady(false);
+      timerEl.textContent = countdownLabel(seconds);
+      timerId = setInterval(function() {
+        seconds--;
+        if (seconds <= 0) {
+          clearInterval(timerId);
+          timerId = null;
+          setResendReady(true);
+        } else {
+          timerEl.textContent = countdownLabel(seconds);
+        }
+      }, 1000);
+    }
+
+    if (timerEl) {
+      timerEl.addEventListener('click', function() {
+        if (seconds > 0) return;
+        startResendCooldown();
+      });
+      timerEl.addEventListener('keydown', function(e) {
+        if (seconds > 0) return;
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          startResendCooldown();
+        }
+      });
+    }
+
+    startResendCooldown();
   </script>
 </body>
 </html>

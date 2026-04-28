@@ -1,6 +1,31 @@
 .home-page {
-  background: var(--c-bg);
+  background: #ffffff;
 }
+
+.home-page .page-body {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.15) 8%,
+    rgba(255, 255, 255, 0.35) 20%,
+    rgba(252, 252, 252, 0.7) 60%,
+    #fafafa 100%
+  );
+}
+
+.home-page .nav-bar {
+  background: #fafafa;
+  border-top: none !important;
+  box-shadow: none !important;
+  margin-top: -2px;
+  outline: none !important;
+}
+
+.home-page .nav-bar::before,
+.home-page .nav-bar::after {
+  content: none !important;
+  display: none !important;
+}
+
 
 /* App header (below status bar) */
 .app-header {
@@ -275,12 +300,12 @@
 }
 
 .parties-section::before {
-  content: "";
+  content: none;
   position: absolute;
   left: 0;
-  top: 0;
-  width: 402.45px;
-  height: 329.472px;
+  top: 120px;
+  width: 100%;
+  height: calc(100% - 120px);
   background: linear-gradient(180deg, rgba(241, 241, 243, 0) 11.8237%, #f1f1f3 100%);
   pointer-events: none;
   z-index: 0;

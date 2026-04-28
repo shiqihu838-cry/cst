@@ -8,29 +8,318 @@
   <link rel="stylesheet" href="../css/base/reset.css">
   <link rel="stylesheet" href="../css/base/typography.css">
   <link rel="stylesheet" href="../css/components/status-bar.css">
+  <link rel="stylesheet" href="../css/components/auth-nav-help.css">
+  <link rel="stylesheet" href="../css/components/modal.css">
   <link rel="stylesheet" href="../css/pages/auth.css">
   <style>
-    .auth-page { background: #fff; position: relative; display: flex; flex-direction: column; height: 100%; }
-    .auth-nav { display: flex; align-items: center; justify-content: space-between; padding: 8px 20px 4px; }
-    .auth-nav__back { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; background: none; border: none; }
-    .auth-nav__help { font-size: 14px; color: #999; cursor: pointer; }
-    .auth-content { padding: 16px 24px 0; flex: 1; }
-    .auth-headline { font-size: 22px; font-weight: 700; color: #111; line-height: 1.5; margin-bottom: 36px; }
-    .phone-row { display: flex; align-items: center; border-bottom: 1.5px solid #e8e8e8; margin-bottom: 12px; }
-    .phone-row__prefix { display: flex; align-items: center; gap: 5px; padding: 14px 14px 14px 0; font-size: 16px; color: #111; white-space: nowrap; flex-shrink: 0; cursor: pointer; }
-    .phone-row__input { flex: 1; border: none; outline: none; font-size: 16px; color: #111; padding: 14px 0; background: transparent; }
-    .phone-row__input::placeholder { color: #ccc; }
-    .auth-link-row { text-align: right; margin-bottom: 28px; }
-    .auth-link-row a { font-size: 13px; color: #999; text-decoration: none; cursor: pointer; }
-    .auth-link-row a:hover { color: var(--c-primary); }
-    .auth-btn-primary { width: 100%; height: 50px; background: var(--c-primary); border: none; border-radius: 25px; font-size: 16px; font-weight: 600; color: #111; cursor: pointer; margin-bottom: 18px; }
-    .auth-terms-text { font-size: 11px; color: #bbb; line-height: 1.7; text-align: center; }
-    .auth-terms-text a { color: #bbb; text-decoration: underline; }
-    .auth-footer-area { position: absolute; bottom: 0; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: 0; }
-    .auth-footer-area__socials { display: flex; gap: 24px; margin-bottom: 16px; padding-top: 20px; }
-    .social-icon-btn { width: 47px; height: 47px; border-radius: 50%; background: #f4f4f4; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; }
-    .auth-footer-area__recover { font-size: 13px; color: #999; cursor: pointer; margin-bottom: 14px; }
-    .auth-deco { width: 100%; height: 160px; object-fit: cover; object-position: bottom; display: block; }
+    /* 本页统一使用苹方（Windows 上为 PingFang SC 回退到系统 UI 字体） */
+    .auth-page {
+      background: #fff;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: hidden;
+      font-family: "PingFang SC", -apple-system, "Helvetica Neue", sans-serif;
+    }
+    .auth-content { padding: 16px 24px 0; flex: 1 1 auto; min-height: 0; }
+    /* Figma 377:10060 — 标题「登录玩伴 和同频好友玩在一起」 */
+    .auth-headline {
+      font-family: "PingFang SC", -apple-system, "Helvetica Neue", sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 28px;
+      letter-spacing: 0;
+      color: #000000;
+      margin: 0 0 2px;
+      white-space: normal;
+    }
+    /* Figma 373:9966 — 副说明 */
+    .auth-subline {
+      font-family: "PingFang SC", -apple-system, "Helvetica Neue", sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 18.2px;
+      letter-spacing: 0;
+      color: rgba(34, 34, 34, 0.5);
+      margin: 0 0 25px;
+    }
+    /* Figma — 手机号输入容器圆角灰底 */
+    .phone-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 50px;
+      padding: 13px 17px;
+      margin-bottom: 9px;
+      background: #f7f7f7;
+      border-radius: 12px;
+      border: none;
+    }
+    /* Figma 377:10029 — +86 */
+    .phone-row__prefix {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0;
+      font-family: "PingFang SC", -apple-system, "Helvetica Neue", sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 21px;
+      color: #000000;
+      white-space: nowrap;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    /* Figma 377:10027 — placeholder */
+    .phone-row__input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-family: "PingFang SC", -apple-system, "Helvetica Neue", sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 21px;
+      color: #222222;
+      padding: 0;
+      background: transparent;
+      min-width: 0;
+      caret-color: #222222;
+    }
+    .phone-row__input::placeholder { color: rgba(34, 34, 34, 0.4); }
+    .auth-link-row { display: flex; align-items: center; gap: 5px; margin-bottom: 25px; }
+    /* Figma 377:10052 — 密码登录前双箭头（旋转 90° 的 chevron 组） */
+    .auth-link-row__icon {
+      width: 12px;
+      height: 12px;
+      flex-shrink: 0;
+      display: block;
+    }
+    /* Figma 377:10043 — 密码登录：字号 13，字重较 500 降一号 */
+    .auth-link-row a {
+      font-family: "PingFang SC", -apple-system, "Helvetica Neue", sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 18.2px;
+      color: #0d5096;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .auth-link-row a:hover { opacity: 0.85; }
+    /* Figma 374:9972 — 验证并登录 */
+    .auth-btn-primary {
+      width: 100%;
+      height: 50px;
+      background: var(--c-primary);
+      border: none;
+      border-radius: 12px;
+      font-family: "PingFang SC", -apple-system, "Helvetica Neue", sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 22.4px;
+      color: #000000;
+      cursor: pointer;
+      margin-bottom: 17px;
+    }
+    /* 与 login 页一致：可点击切换的协议勾选 */
+    .auth-terms {
+      display: flex;
+      align-items: flex-start;
+      gap: 4px;
+      margin: 0;
+    }
+    /* 设计稿换行：第 1 行到「运营商将对」，第 2 行「你提供的手机号进行验证」 */
+    .auth-terms__copy {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 400;
+      line-height: 15.4px;
+      color: #8c8c8c;
+    }
+    .auth-terms__line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      column-gap: 4px;
+      row-gap: 0;
+    }
+    .auth-terms__line--2 {
+      display: block;
+      margin-top: 0;
+    }
+    .auth-terms__native-checkbox { display: none; }
+    .auth-terms__toggle {
+      border: none;
+      background: transparent;
+      padding: 0;
+      margin: 0;
+      line-height: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .auth-terms__checkbox {
+      width: 11px;
+      height: 11px;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: block;
+    }
+    .auth-terms__text,
+    .auth-terms__link {
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      line-height: inherit;
+    }
+    .auth-terms__text { color: #8c8c8c; }
+    .auth-terms__link {
+      color: #0d5096;
+      cursor: pointer;
+      font-weight: 400;
+      text-decoration: none;
+    }
+    .auth-footer-area {
+      margin-top: auto;
+      flex-shrink: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      padding-bottom: env(safe-area-inset-bottom, 0);
+    }
+    /* Figma 379:10076 — QQ、Apple、找回账号同一行，间距 25 */
+    .auth-footer-area__row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 25px;
+      padding-top: 20px;
+      margin-bottom: 16px;
+    }
+    .social-icon-btn {
+      width: 47px;
+      height: 47px;
+      border-radius: 50%;
+      background: #f7f7f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      flex-shrink: 0;
+      padding: 0;
+    }
+    /* Figma 379:10075 Frame 982 — 找回账号 */
+    .auth-footer-area__recover-btn {
+      box-sizing: border-box;
+      min-height: 44.4px;
+      padding: 13px 20px 14px;
+      border-radius: 22.2px;
+      border: 0.5px solid rgba(34, 34, 34, 0.3);
+      background: transparent;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 18.2px;
+      color: rgba(34, 34, 34, 0.3);
+      cursor: pointer;
+      flex-shrink: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .auth-footer-area__recover-btn:active {
+      opacity: 0.85;
+    }
+    /* 原设计键盘图 + 透明热区（高约 308，与稿一致） */
+    .auth-keypad-wrap {
+      position: relative;
+      width: 100%;
+      height: 308px;
+      flex-shrink: 0;
+      overflow: hidden;
+      line-height: 0;
+      background: #d1d2d6;
+    }
+    .auth-keypad-wrap__img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: bottom center;
+      pointer-events: none;
+      user-select: none;
+    }
+    .auth-keypad-wrap__hits {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      gap: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .auth-keypad-hit {
+      margin: 0;
+      padding: 0;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .auth-keypad-hit:focus {
+      outline: none;
+    }
+    .auth-keypad-hit-skip {
+      pointer-events: none;
+    }
+    /* 未勾选协议弹窗（与 hint 图二一致，叠在机壳内含顶栏） */
+    .phone-frame > .page.auth-page {
+      position: relative;
+      z-index: 0;
+    }
+    .phone-verify-agreement-sheet {
+      position: absolute;
+      inset: 0;
+      z-index: 200;
+      border-radius: inherit;
+    }
+    .phone-verify-agreement-sheet[hidden] {
+      display: none !important;
+    }
+    .phone-verify-agreement-sheet__backdrop {
+      position: absolute;
+      inset: 0;
+      background: var(--c-overlay);
+    }
+    .phone-verify-agreement-sheet .modal {
+      z-index: 201;
+    }
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
   </style>
 </head>
 <body>
@@ -48,48 +337,94 @@
         </div>
         <div class="auth-nav">
           <button class="auth-nav__back" id="btn-back" type="button">
-            <svg width="10" height="17" viewBox="0 0 10 17" fill="none"><path d="M9 1L1 8.5L9 16" stroke="#222" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="16" viewBox="0 0 9 16" fill="none" aria-hidden="true"><path d="M8 15L1 8L8 1" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
           <span class="auth-nav__help">帮助</span>
         </div>
       </header>
 
       <div class="auth-content">
-        <h1 class="auth-headline">登录玩伴<br>和同频好友玩在一起</h1>
+        <h1 class="auth-headline">登录玩伴 和同频好友玩在一起</h1>
+        <p class="auth-subline">未注册的手机号验证通过后将自动注册账号</p>
 
         <div class="phone-row">
           <div class="phone-row__prefix">
             <span>+86</span>
             <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="#999" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <input class="phone-row__input" type="tel" placeholder="请输入手机号" maxlength="11" id="phone-input">
+          <input class="phone-row__input" type="text" inputmode="none" placeholder="请输入手机号" maxlength="11" id="phone-input" autocomplete="tel-national" aria-describedby="phone-keypad-hint">
         </div>
 
         <div class="auth-link-row">
+          <svg class="auth-link-row__icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M7.21193 0.5L11.2572 4.244L0.500031 4.244M4.17794 10.6856L0.500031 7.244L11.2572 7.244" stroke="#0D5096" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
           <a onclick="Router.go('phone-password.html')">密码登录</a>
         </div>
 
         <button class="auth-btn-primary" id="btn-submit" type="button">验证并登录</button>
 
-        <p class="auth-terms-text">
-          登录即代表同意<a href="#">《用户协议》</a>及<a href="#">《隐私政策》</a><br>
-          未注册手机将自动创建玩伴账号
-        </p>
+        <div class="auth-terms">
+          <input type="checkbox" id="phone-verify-terms-checkbox" class="auth-terms__native-checkbox">
+          <button id="phone-verify-terms-toggle" class="auth-terms__toggle" type="button" aria-label="同意条款">
+            <img id="phone-verify-checkbox-img" class="auth-terms__checkbox" data-asset="login_unchecked" alt="">
+          </button>
+          <div class="auth-terms__copy" id="phone-verify-terms-copy">
+            <span class="auth-terms__line auth-terms__line--1">
+              <span class="auth-terms__text">已阅读并同意</span><a class="auth-terms__link" href="#">用户登录指引协议</a><span class="auth-terms__text">以及</span><a class="auth-terms__link" href="#">运营商服务协议</a><span class="auth-terms__text">，运营商将对</span>
+            </span>
+            <span class="auth-terms__line--2 auth-terms__text">你提供的手机号进行验证</span>
+          </div>
+        </div>
       </div>
 
       <div class="auth-footer-area">
-        <div class="auth-footer-area__socials">
-          <button class="social-icon-btn" type="button">
-            <img data-asset="login_qq" src="" alt="QQ" width="26" height="26">
+        <div class="auth-footer-area__row">
+          <button class="social-icon-btn" type="button" aria-label="QQ 登录">
+            <img data-asset="login_qq" src="" alt="" width="26" height="26">
           </button>
-          <button class="social-icon-btn" type="button">
-            <img data-asset="login_apple" src="" alt="Apple" width="22" height="22">
+          <button class="social-icon-btn" type="button" aria-label="Apple 登录">
+            <img data-asset="login_apple" src="" alt="" width="22" height="22">
           </button>
+          <button type="button" class="auth-footer-area__recover-btn" onclick="Router.go('phone-password.html')">找回账号</button>
         </div>
-        <span class="auth-footer-area__recover" onclick="Router.go('phone-password.html')">找回账号</span>
-        <img class="auth-deco" data-asset="phone_verify_deco" src="" alt="">
+        <span id="phone-keypad-hint" class="visually-hidden">可点按下方键盘图输入数字，或在输入框内编辑、删除，最多 11 位</span>
+        <div class="auth-keypad-wrap" id="phone-keypad">
+          <img class="auth-keypad-wrap__img" data-asset="phone_verify_deco" src="" alt="">
+          <div class="auth-keypad-wrap__hits" role="group" aria-label="数字键盘">
+            <button type="button" class="auth-keypad-hit" data-digit="1" aria-label="1"></button>
+            <button type="button" class="auth-keypad-hit" data-digit="2" aria-label="2"></button>
+            <button type="button" class="auth-keypad-hit" data-digit="3" aria-label="3"></button>
+            <button type="button" class="auth-keypad-hit" data-digit="4" aria-label="4"></button>
+            <button type="button" class="auth-keypad-hit" data-digit="5" aria-label="5"></button>
+            <button type="button" class="auth-keypad-hit" data-digit="6" aria-label="6"></button>
+            <button type="button" class="auth-keypad-hit" data-digit="7" aria-label="7"></button>
+            <button type="button" class="auth-keypad-hit" data-digit="8" aria-label="8"></button>
+            <button type="button" class="auth-keypad-hit" data-digit="9" aria-label="9"></button>
+            <span class="auth-keypad-hit-skip" aria-hidden="true"></span>
+            <button type="button" class="auth-keypad-hit" data-digit="0" aria-label="0"></button>
+            <button type="button" class="auth-keypad-hit" data-action="delete" aria-label="删除"></button>
+          </div>
+        </div>
       </div>
 
+    </div>
+
+    <div id="phone-verify-agreement-sheet" class="phone-verify-agreement-sheet" hidden>
+      <div class="phone-verify-agreement-sheet__backdrop" aria-hidden="true"></div>
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="phone-verify-agreement-title">
+        <p class="modal__title" id="phone-verify-agreement-title">服务协议及隐私保护</p>
+        <div class="modal__body">
+          <span style="color:rgba(34,34,34,0.8)">我已阅读并同意</span>
+          <span style="color:var(--c-link);cursor:pointer">隐私政策</span>
+          <span style="color:rgba(34,34,34,0.8)">和</span>
+          <span style="color:var(--c-link);cursor:pointer">服务条款</span>
+        </div>
+        <div class="modal__actions">
+          <button type="button" class="modal__btn modal__btn--cancel" id="phone-verify-agreement-disagree">不同意</button>
+          <button type="button" class="modal__btn modal__btn--confirm" id="phone-verify-agreement-agree">同意</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -98,10 +433,169 @@
   <script src="../js/utils/router.js"></script>
   <script>
     window.populateAssets && window.populateAssets();
-    document.getElementById('btn-back').addEventListener('click', function() { Router.back(); });
+
+    var uncheckedSrc = '../assets/images/login_unchecked.svg?v=2';
+    var checkedSrc = '../assets/images/hint_checked.svg?v=2';
+
+    document.getElementById('btn-back').addEventListener('click', function() { Router.go('login.html'); });
+
+    (function setupNumericKeypad() {
+      var input = document.getElementById('phone-input');
+      var pad = document.getElementById('phone-keypad');
+      if (!input || !pad) return;
+
+      function digitsOnly(s) {
+        return (s || '').replace(/\D/g, '');
+      }
+
+      function clampPhoneValue(raw) {
+        return digitsOnly(raw).slice(0, 11);
+      }
+
+      function insertDigit(digit) {
+        var clean = clampPhoneValue(input.value);
+        if (document.activeElement === input && input.selectionStart != null) {
+          var start = input.selectionStart;
+          var end = input.selectionEnd != null ? input.selectionEnd : start;
+          var v = input.value;
+          if (start === end && digitsOnly(v).length >= 11) return;
+          var merged = clampPhoneValue(v.slice(0, start) + digit + v.slice(end));
+          input.value = merged;
+          var pos = Math.min(merged.length, start + 1);
+          input.setSelectionRange(pos, pos);
+        } else {
+          if (clean.length >= 11) return;
+          input.value = (clean + digit).slice(0, 11);
+          input.focus();
+          input.setSelectionRange(input.value.length, input.value.length);
+        }
+      }
+
+      function deleteOne() {
+        if (document.activeElement === input && input.selectionStart != null) {
+          var start = input.selectionStart;
+          var end = input.selectionEnd != null ? input.selectionEnd : start;
+          var v = input.value;
+          if (start === end) {
+            if (start < 1) return;
+            var merged = clampPhoneValue(v.slice(0, start - 1) + v.slice(start));
+            input.value = merged;
+            input.setSelectionRange(Math.min(start - 1, merged.length), Math.min(start - 1, merged.length));
+          } else {
+            var merged2 = clampPhoneValue(v.slice(0, start) + v.slice(end));
+            input.value = merged2;
+            input.setSelectionRange(Math.min(start, merged2.length), Math.min(start, merged2.length));
+          }
+        } else {
+          input.value = clampPhoneValue(input.value).slice(0, -1);
+          input.focus();
+          input.setSelectionRange(input.value.length, input.value.length);
+        }
+      }
+
+      pad.addEventListener('click', function(e) {
+        var hit = e.target.closest('.auth-keypad-hit');
+        if (!hit) return;
+        e.preventDefault();
+        if (hit.getAttribute('data-action') === 'delete') {
+          deleteOne();
+          return;
+        }
+        var digit = hit.getAttribute('data-digit');
+        if (digit != null && digit !== '') {
+          insertDigit(digit);
+          input.focus();
+        }
+      });
+
+      input.addEventListener('paste', function(e) {
+        e.preventDefault();
+        var t = (e.clipboardData || window.clipboardData).getData('text') || '';
+        input.value = clampPhoneValue(t);
+      });
+
+      input.addEventListener('input', function() {
+        var cur = input.value;
+        var next = clampPhoneValue(cur);
+        if (cur !== next) {
+          input.value = next;
+          input.setSelectionRange(next.length, next.length);
+        }
+      });
+    })();
+
+    (function setupTermsToggle() {
+      var checkbox = document.getElementById('phone-verify-terms-checkbox');
+      var toggleBtn = document.getElementById('phone-verify-terms-toggle');
+      var checkboxImg = document.getElementById('phone-verify-checkbox-img');
+      var termsCopy = document.getElementById('phone-verify-terms-copy');
+
+      function syncCheckboxImage() {
+        if (!checkbox || !checkboxImg) return;
+        checkboxImg.src = checkbox.checked ? checkedSrc : uncheckedSrc;
+      }
+
+      if (checkbox) checkbox.checked = false;
+      syncCheckboxImage();
+
+      if (toggleBtn && checkbox) {
+        toggleBtn.addEventListener('click', function (event) {
+          event.stopPropagation();
+          checkbox.checked = !checkbox.checked;
+          syncCheckboxImage();
+        });
+      }
+
+      if (termsCopy && checkbox) {
+        termsCopy.addEventListener('click', function (event) {
+          if (event.target.closest('.auth-terms__link')) return;
+          checkbox.checked = !checkbox.checked;
+          syncCheckboxImage();
+        });
+      }
+    })();
+
+    var agreementSheet = document.getElementById('phone-verify-agreement-sheet');
+
+    function showAgreementSheet() {
+      if (agreementSheet) agreementSheet.hidden = false;
+    }
+
+    function hideAgreementSheet() {
+      if (agreementSheet) agreementSheet.hidden = true;
+    }
+
     document.getElementById('btn-submit').addEventListener('click', function() {
       var val = document.getElementById('phone-input').value.trim();
-      if (val.length >= 11) Router.go('verify-code.html');
+      if (val.length < 11) return;
+      var checkbox = document.getElementById('phone-verify-terms-checkbox');
+      if (checkbox && !checkbox.checked) {
+        showAgreementSheet();
+        return;
+      }
+      try {
+        sessionStorage.setItem('vibe_verify_phone', val);
+      } catch (e) {}
+      Router.go('verify-code.html');
+    });
+
+    document.getElementById('phone-verify-agreement-disagree').addEventListener('click', function() {
+      hideAgreementSheet();
+    });
+
+    document.getElementById('phone-verify-agreement-agree').addEventListener('click', function() {
+      var checkbox = document.getElementById('phone-verify-terms-checkbox');
+      var checkboxImg = document.getElementById('phone-verify-checkbox-img');
+      if (checkbox) checkbox.checked = true;
+      if (checkboxImg) checkboxImg.src = checkedSrc;
+      hideAgreementSheet();
+      var val = document.getElementById('phone-input').value.trim();
+      if (val.length >= 11) {
+        try {
+          sessionStorage.setItem('vibe_verify_phone', val);
+        } catch (e) {}
+        Router.go('verify-code.html');
+      }
     });
   </script>
 </body>

@@ -9,18 +9,15 @@
   padding-bottom: 48px;
 }
 
-/* Help link top-right */
+/* Help link top-right — 与上方（状态栏区域下沿 / page-body 顶）间隔 10px */
 .login-help {
   display: flex;
   justify-content: flex-end;
+  margin-top: 10px;
   padding: 0 16px 10px;
 }
 
-.login-help a {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--c-dark);
-}
+/* 文案样式见 components/auth-nav-help.css（与图一「帮助」一致） */
 
 /* Brand block (logo + tagline) */
 .login-brand {

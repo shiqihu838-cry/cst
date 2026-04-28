@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="../css/components/nav-bar.css">
   <style>
     * { box-sizing: border-box; }
-    body { background: #f8f8f8; }
     .phone-frame { width: 402px; height: 889px; margin: 0 auto; background: linear-gradient(180deg, rgba(0, 255, 246, 0.20) -23.38%, rgba(121, 255, 250, 0.40) 6.37%, #F8F8F8 53.76%); display: flex; flex-direction: column; overflow: hidden; position: relative; }
     .page { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: transparent; }
     .status-bar { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px 0; height: 44px; }
@@ -32,11 +31,11 @@
     .sq-search input:focus::placeholder { color: transparent; }
 
     /* Category filters use discover page style */
-    .filter-row { width: 402px; max-width: 100%; margin: 14px auto 11px; background: transparent; padding: 0 15px 0 15px; display: flex; flex-wrap: nowrap; align-items: flex-start; gap: 50px; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
+    .filter-row { position: relative; width: 402px; max-width: 100%; margin: 14px auto 11px; background: transparent; padding: 0 15px 8px 15px; display: flex; flex-wrap: nowrap; align-items: flex-start; gap: 50px; overflow-x: auto; overflow-y: visible; -webkit-overflow-scrolling: touch; }
     .filter-row::-webkit-scrollbar { display: none; }
-    .filter-pill { position: relative; height: 27px; padding: 0; font-size: 16px; font-family: "PingFang SC", sans-serif; font-style: normal; font-weight: 500; line-height: 22.4px; color: rgba(34, 34, 34, 0.6); background: transparent; border: none; cursor: pointer; white-space: nowrap; flex: 0 0 auto; display: inline-flex; align-items: center; -webkit-tap-highlight-color: transparent; border-radius: 0; }
-    .filter-pill.is-active { font-weight: 600; color: rgba(34, 34, 34, 0.6); background: transparent; }
-    .filter-pill.is-active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -2px; width: 100%; height: 4px; border-radius: 2px; background: #00fff6; transform: none; }
+    .filter-pill { position: relative; height: 27px; padding: 0; font-size: 16px; font-family: "PingFang SC", sans-serif; font-style: normal; font-weight: 500; line-height: 22.4px; color: rgba(34, 34, 34, 0.6); background: transparent; border: none; cursor: pointer; white-space: nowrap; flex: 0 0 auto; -webkit-tap-highlight-color: transparent; border-radius: 0; -webkit-appearance: none; appearance: none; }
+    .filter-pill.is-active { font-weight: 600; color: #222222; background: transparent; }
+    .filter-pill-indicator { position: absolute; left: 0; bottom: 0; height: 2px; width: 32px; border-radius: 1px; background: #00fff6; transform: translateX(15px); transition: transform 0.22s ease, width 0.22s ease; pointer-events: none; z-index: 2; }
 
     .page-body { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 8px; }
     .page-body::-webkit-scrollbar { display: none; }
@@ -50,7 +49,7 @@
     .post-card__author { display: flex; align-items: center; gap: 5px; }
     .post-card__avatar { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; background: #ddd; }
     .post-card__name { font-size: 11px; color: #999; }
-    .post-card__likes { display: flex; align-items: center; gap: 3px; font-size: 11px; color: #bbb; }
+    .post-card__likes { display: flex; align-items: center; gap: 3px; font-size: 11px; color: rgba(34, 34, 34, 0.5); }
     .nav-bar { border-top: 1px solid rgba(0,0,0,0.06); }
   </style>
 </head>
@@ -83,6 +82,7 @@
           <button class="filter-pill">找搭子</button>
           <button class="filter-pill">同人二创</button>
           <button class="filter-pill">二次元</button>
+          <div class="filter-pill-indicator" aria-hidden="true"></div>
         </div>
       </div>
 
@@ -99,7 +99,7 @@
                     <span class="post-card__name">小临川</span>
                   </div>
                   <div class="post-card__likes">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10.5C6 10.5 1 7 1 4a2.5 2.5 0 015 0 2.5 2.5 0 015 0c0 3-5 6.5-5 6.5z" stroke="#bbb" stroke-width="1.2" fill="none"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13" viewBox="0 0 14 13" fill="none"><path d="M6.76191 2.69464C5.37037 -0.571594 0.5 -0.22371 0.5 3.95092C0.5 8.12554 6.76191 11.6045 6.76191 11.6045C6.76191 11.6045 13.0238 8.12554 13.0238 3.95092C13.0238 -0.22371 8.15344 -0.571594 6.76191 2.69464Z" stroke="#222222" stroke-opacity="0.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     <span>312</span>
                   </div>
                 </div>
@@ -115,7 +115,7 @@
                     <span class="post-card__name">七七</span>
                   </div>
                   <div class="post-card__likes">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10.5C6 10.5 1 7 1 4a2.5 2.5 0 015 0 2.5 2.5 0 015 0c0 3-5 6.5-5 6.5z" stroke="#bbb" stroke-width="1.2" fill="none"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13" viewBox="0 0 14 13" fill="none"><path d="M6.76191 2.69464C5.37037 -0.571594 0.5 -0.22371 0.5 3.95092C0.5 8.12554 6.76191 11.6045 6.76191 11.6045C6.76191 11.6045 13.0238 8.12554 13.0238 3.95092C13.0238 -0.22371 8.15344 -0.571594 6.76191 2.69464Z" stroke="#222222" stroke-opacity="0.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     <span>89</span>
                   </div>
                 </div>
@@ -133,7 +133,7 @@
                     <span class="post-card__name">星元季</span>
                   </div>
                   <div class="post-card__likes">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10.5C6 10.5 1 7 1 4a2.5 2.5 0 015 0 2.5 2.5 0 015 0c0 3-5 6.5-5 6.5z" stroke="#bbb" stroke-width="1.2" fill="none"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13" viewBox="0 0 14 13" fill="none"><path d="M6.76191 2.69464C5.37037 -0.571594 0.5 -0.22371 0.5 3.95092C0.5 8.12554 6.76191 11.6045 6.76191 11.6045C6.76191 11.6045 13.0238 8.12554 13.0238 3.95092C13.0238 -0.22371 8.15344 -0.571594 6.76191 2.69464Z" stroke="#222222" stroke-opacity="0.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     <span>204</span>
                   </div>
                 </div>
@@ -149,7 +149,7 @@
                     <span class="post-card__name">生菜大王</span>
                   </div>
                   <div class="post-card__likes">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10.5C6 10.5 1 7 1 4a2.5 2.5 0 015 0 2.5 2.5 0 015 0c0 3-5 6.5-5 6.5z" stroke="#bbb" stroke-width="1.2" fill="none"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13" viewBox="0 0 14 13" fill="none"><path d="M6.76191 2.69464C5.37037 -0.571594 0.5 -0.22371 0.5 3.95092C0.5 8.12554 6.76191 11.6045 6.76191 11.6045C6.76191 11.6045 13.0238 8.12554 13.0238 3.95092C13.0238 -0.22371 8.15344 -0.571594 6.76191 2.69464Z" stroke="#222222" stroke-opacity="0.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     <span>97</span>
                   </div>
                 </div>
@@ -182,14 +182,32 @@
         });
       });
 
+      var filterRow = document.querySelector('.filter-row');
+      var filterInd = document.querySelector('.filter-pill-indicator');
+
+      function moveFilterIndicator() {
+        if (!filterRow || !filterInd) return;
+        var active = filterRow.querySelector('.filter-pill.is-active');
+        if (!active) return;
+        filterInd.style.width = active.offsetWidth + 'px';
+        filterInd.style.transform = 'translateX(' + active.offsetLeft + 'px)';
+      }
+
       document.querySelectorAll('.filter-pill').forEach(function (pill) {
         pill.addEventListener('click', function () {
           document.querySelectorAll('.filter-pill.is-active').forEach(function (activePill) {
             activePill.classList.remove('is-active');
           });
           pill.classList.add('is-active');
+          moveFilterIndicator();
         });
       });
+
+      requestAnimationFrame(function () {
+        requestAnimationFrame(moveFilterIndicator);
+      });
+      window.addEventListener('resize', moveFilterIndicator);
+      if (filterRow) filterRow.addEventListener('scroll', moveFilterIndicator);
     });
   </script>
 </body>

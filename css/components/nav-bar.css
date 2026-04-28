@@ -101,6 +101,12 @@
   opacity: 1;
 }
 
+/* Fine tune profile foreground icon to avoid visual clipping */
+.nav-bar__item[data-nav="profile"] .nav-bar__icon-wrap > svg:not(.nav-bar__profile-bg) {
+  transform: translateY(0.6px) scale(0.94);
+  transform-origin: center center;
+}
+
 .nav-bar__label {
   font-family: var(--font-main);
   font-size: 10px;

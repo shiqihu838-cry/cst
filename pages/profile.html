@@ -28,8 +28,191 @@
     .hero-main { position: relative; height: 177px; }
     /* Hero top action row */
     .hero-action-row { position: relative; z-index: 3; height: 38px; padding: 8px 16px 0; display: flex; align-items: flex-start; justify-content: space-between; }
-    .hero-top-actions { display: flex; align-items: flex-start; gap: 20px; }
-    .hero-top-actions svg { cursor: pointer; }
+    .hero-top-actions { display: flex; align-items: flex-start; gap: 14px; }
+    .hero-icon-btn {
+      padding: 0;
+      margin: 0;
+      border: none;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #fff;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .hero-icon-btn:focus { outline: none; }
+    .hero-icon-btn:focus-visible { outline: 2px solid rgba(255,255,255,0.6); outline-offset: 2px; }
+
+    /* 主页侧栏（与「我的」顶栏同一页内） */
+    .profile-drawer {
+      position: absolute;
+      inset: 0;
+      z-index: 80;
+      pointer-events: none;
+      visibility: hidden;
+      overscroll-behavior: contain;
+    }
+    .profile-drawer.is-open {
+      pointer-events: auto;
+      visibility: visible;
+    }
+    .profile-drawer__backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.38);
+      opacity: 0;
+      transition: opacity 0.26s ease;
+      touch-action: none;
+    }
+    .profile-drawer.is-open .profile-drawer__backdrop { opacity: 1; }
+    .profile-drawer__panel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 76%;
+      max-width: 305px;
+      background: #f2f3f5;
+      box-shadow: -8px 0 24px rgba(0, 0, 0, 0.12);
+      transform: translateX(100%);
+      transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      will-change: transform;
+    }
+    .profile-drawer.is-open .profile-drawer__panel { transform: translateX(0); }
+    .profile-drawer__statusbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 3;
+      height: 62px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      background: transparent;
+      pointer-events: none;
+    }
+    .profile-drawer__statusbar img {
+      width: 100%;
+      height: 62px;
+      object-fit: fill;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+    }
+    .profile-drawer__content {
+      padding: calc(62px + 12px) 12px calc(16px + env(safe-area-inset-bottom, 0));
+    }
+    .profile-drawer__top {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-shrink: 0;
+    }
+    .profile-drawer__scan {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 20px;
+      border: none;
+      background: #fff;
+      font-size: 13px;
+      font-weight: 500;
+      color: #222;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .profile-drawer__close {
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      font-size: 22px;
+      line-height: 1;
+      color: #666;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .profile-drawer__card {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .profile-drawer__row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 14px 14px 12px;
+      text-decoration: none;
+      color: #222;
+      font-size: 15px;
+      font-weight: 500;
+      border-bottom: 0.5px solid rgba(0,0,0,0.06);
+      cursor: pointer;
+    }
+    .profile-drawer__row:last-child { border-bottom: none; }
+    .profile-drawer__row:active { background: #f9f9f9; }
+    .profile-drawer__row-icon { width: 22px; height: 22px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: #444; }
+    .profile-drawer__row-icon .icon-qr {
+      display: block;
+      overflow: visible;
+      transform: translateY(0.5px);
+    }
+    .profile-drawer__row-label { flex: 1; min-width: 0; }
+    .profile-drawer__chevron { color: #c4c4c4; flex-shrink: 0; }
+    .profile-drawer__section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #222;
+      border-bottom: 0.5px solid rgba(0,0,0,0.06);
+    }
+    .profile-drawer__section-title span:last-child {
+      font-size: 13px;
+      font-weight: 400;
+      color: #888;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .profile-drawer__notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      border-bottom: 0.5px solid rgba(0,0,0,0.06);
+      font-size: 13px;
+      color: #333;
+      line-height: 1.45;
+    }
+    .profile-drawer__notice:last-child { border-bottom: none; }
+    .profile-drawer__notice-date { flex-shrink: 0; font-size: 12px; color: #999; }
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
 
     /* Avatar area */
     .hero-avatar-area { position: absolute; bottom: 20px; left: 16px; z-index: 3; display: flex; align-items: center; gap: 30px; }
@@ -46,17 +229,64 @@
     .hero-edit-btn span { display: block; font-size: 13px; color: #fff; font-weight: 400; line-height: 1; white-space: nowrap; }
 
     /* White card area */
-    .profile-body { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; background: #fff; margin-top: 0; padding-top: 16px; border-radius: 10px 10px 0 0; position: relative; z-index: 1; }
+    .profile-body { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; background: #ffffff; margin-top: 0; padding-top: 16px; border-radius: 10px 10px 0 0; position: relative; z-index: 1; }
     .profile-body::-webkit-scrollbar { display: none; }
 
-    /* Tabs */
-    .profile-tabs { display: flex; align-items: center; justify-content: flex-start; gap: 50px; background: #fff; border-radius: 10px 10px 0 0; padding: 0 16px; border-bottom: none; }
-    .profile-tab { flex: 0 0 auto; position: relative; height: 27px; padding: 0; font-size: 16px; font-family: "PingFang SC", sans-serif; font-style: normal; font-weight: 500; line-height: 22.4px; color: rgba(34, 34, 34, 0.6); text-align: center; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-    .profile-tab.is-active { font-weight: 600; color: rgba(34, 34, 34, 0.6); }
-    .profile-tab.is-active::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 3px; border-radius: 2px; background: #00fff6; }
+    /* Tabs：独立滑块（避免 button::after 在部分 WebView 不显示） */
+    .profile-tabs {
+      position: relative;
+      background: #ffffff !important;
+      border-radius: 10px 10px 0 0;
+      padding: 0 16px 6px;
+      border-bottom: none;
+    }
+    .profile-tabs + .posts-masonry {
+      background: #fafafa;
+    }
+    .profile-tabs__row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 50px;
+    }
+    .profile-tab {
+      flex: 0 0 auto;
+      height: 27px;
+      padding: 0;
+      margin: 0;
+      border: none;
+      background: transparent;
+      font: inherit;
+      font-size: 16px;
+      font-family: "PingFang SC", sans-serif;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 22.4px;
+      color: rgba(34, 34, 34, 0.6);
+      text-align: center;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .profile-tab.is-active,
+    .profile-tab[aria-selected="true"] { font-weight: 600; color: #222222 !important; }
+    .profile-tab-indicator {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 2px;
+      width: 32px;
+      border-radius: 1px;
+      background: #00fff6;
+      transform: translateX(16px);
+      transition: transform 0.22s ease, width 0.22s ease;
+      pointer-events: none;
+      z-index: 2;
+    }
 
     /* Posts grid */
-    .posts-masonry { padding: 10px 10px 0; display: flex; gap: 6px; background: #fff; }
+    .posts-masonry { padding: 10px 10px 0; display: flex; gap: 6px; background: #fafafa; }
     .masonry-col { display: flex; flex-direction: column; gap: 6px; flex: 1; }
     .post-card { background: #fff; border-radius: 8px; overflow: hidden; cursor: pointer; }
     .post-card__img { display: block; width: 100%; object-fit: cover; }
@@ -95,8 +325,19 @@
               <span>编辑主页</span>
             </div>
             <div class="hero-top-actions">
-              <svg width="26" height="26" viewBox="0 0 22 22" fill="none"><circle cx="10" cy="10" r="7" stroke="white" stroke-width="1.8"/><path d="M16 16l4 4" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
-              <svg width="28" height="28" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="white" stroke-width="1.8"/><line x1="11" y1="7" x2="11" y2="15" stroke="white" stroke-width="1.8" stroke-linecap="round"/><line x1="7" y1="11" x2="15" y2="11" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <button type="button" class="hero-icon-btn" aria-label="搜索">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7" stroke="white" stroke-width="1.8"/><path d="M16 16l4 4" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </button>
+              <button type="button" class="hero-icon-btn" aria-label="发布">
+                <svg width="24" height="24" viewBox="0 0 22 22" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="9" stroke="white" stroke-width="1.8"/><line x1="11" y1="7" x2="11" y2="15" stroke="white" stroke-width="1.8" stroke-linecap="round"/><line x1="7" y1="11" x2="15" y2="11" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </button>
+              <button type="button" class="hero-icon-btn" id="btn-profile-more" aria-label="更多" aria-expanded="false" aria-controls="profile-home-drawer">
+                <svg width="26" height="26" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+                  <line x1="5" y1="6" x2="17" y2="6" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+                  <line x1="5" y1="11" x2="17" y2="11" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+                  <line x1="5" y1="16" x2="17" y2="16" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </button>
             </div>
           </div>
 
@@ -118,11 +359,14 @@
       <!-- Body -->
       <div class="profile-body">
         <!-- Tabs -->
-        <div class="profile-tabs">
-          <div class="profile-tab is-active">动态</div>
-          <div class="profile-tab">评论</div>
-          <div class="profile-tab">收藏</div>
-          <div class="profile-tab">历史</div>
+        <div class="profile-tabs" role="tablist" aria-label="个人内容分类">
+          <div class="profile-tabs__row">
+            <button type="button" class="profile-tab is-active" role="tab" aria-selected="true">动态</button>
+            <button type="button" class="profile-tab" role="tab" aria-selected="false">评论</button>
+            <button type="button" class="profile-tab" role="tab" aria-selected="false">收藏</button>
+            <button type="button" class="profile-tab" role="tab" aria-selected="false">历史</button>
+          </div>
+          <div class="profile-tab-indicator" aria-hidden="true"></div>
         </div>
 
         <!-- Posts masonry -->
@@ -208,6 +452,82 @@
       </nav>
 
     </div>
+
+    <!-- 侧栏：挂在 phone-frame 上，避免 .page overflow 裁切 -->
+    <div id="profile-home-drawer" class="profile-drawer" aria-hidden="true">
+      <div class="profile-drawer__backdrop" data-close-drawer tabindex="-1" aria-hidden="true"></div>
+      <div class="profile-drawer__statusbar" aria-hidden="true">
+        <img src="../assets/images/header.png" alt="">
+      </div>
+      <aside class="profile-drawer__panel" role="dialog" aria-modal="true" aria-labelledby="profile-drawer-heading">
+        <h2 id="profile-drawer-heading" class="visually-hidden">更多与设置</h2>
+        <div class="profile-drawer__content">
+        <div class="profile-drawer__top">
+          <button type="button" class="profile-drawer__scan" id="btn-drawer-scan">
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+  <g clip-path="url(#clip0_630_19622)">
+    <path d="M14.4251 8.84108H2.6739M0.84082 4.99163V2.02677C0.84082 1.71223 0.965768 1.41058 1.18818 1.18818C1.41058 0.965768 1.71223 0.84082 2.02677 0.84082H4.99163M16.2581 4.99163V2.02677C16.2581 1.71223 16.1332 1.41058 15.9108 1.18818C15.6884 0.965768 15.3867 0.84082 15.0722 0.84082H12.1073M0.84082 12.1073V15.0722C0.84082 15.3867 0.965768 15.6884 1.18818 15.9108C1.41058 16.1332 1.71223 16.2581 2.02677 16.2581H4.99163M16.2581 12.1073V15.0722C16.2581 15.3867 16.1332 15.6884 15.9108 15.9108C15.6884 16.1332 15.3867 16.2581 15.0722 16.2581H12.1073" stroke="#000001" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <defs>
+    <clipPath id="clip0_630_19622">
+      <rect width="17" height="17" fill="white"/>
+    </clipPath>
+  </defs>
+</svg>
+            扫一扫
+          </button>
+          <button type="button" class="profile-drawer__close" data-close-drawer aria-label="关闭侧栏">×</button>
+        </div>
+        <div class="profile-drawer__card">
+          <a href="#" class="profile-drawer__row">
+            <span class="profile-drawer__row-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+  <path d="M15.2857 9.4979V6.92647C15.2857 6.58547 15.1503 6.25845 14.9091 6.01733C14.668 5.77621 14.341 5.64075 14 5.64075H1.78571C1.44472 5.64075 1.1177 5.77621 0.876577 6.01733C0.635459 6.25845 0.5 6.58547 0.5 6.92647V15.9265C0.5 16.2675 0.635459 16.5945 0.876577 16.8356C1.1177 17.0767 1.44472 17.2122 1.78571 17.2122H14C14.341 17.2122 14.668 17.0767 14.9091 16.8356C15.1503 16.5945 15.2857 16.2675 15.2857 15.9265V12.7122M4.79429 2.42647L12.0843 0.52361C12.1662 0.500529 12.2519 0.494285 12.3363 0.505256C12.4207 0.516226 12.502 0.544183 12.5753 0.587439C12.6486 0.630696 12.7124 0.688354 12.7628 0.756935C12.8132 0.825516 12.8492 0.903598 12.8686 0.986467L13.2286 2.42647M13.3571 9.4979H16.5714C16.9265 9.4979 17.2143 9.78571 17.2143 10.1408V12.0693C17.2143 12.4244 16.9265 12.7122 16.5714 12.7122H13.3571C13.0021 12.7122 12.7143 12.4244 12.7143 12.0693V10.1408C12.7143 9.78571 13.0021 9.4979 13.3571 9.4979Z" stroke="#000001" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg></span>
+            <span class="profile-drawer__row-label">我的钱包</span>
+            <span class="profile-drawer__chevron" aria-hidden="true">›</span>
+          </a>
+          <a href="#" class="profile-drawer__row">
+            <span class="profile-drawer__row-icon"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="20" viewBox="0 0 17 20" fill="none">
+  <path d="M8.3344 2.85028C6.25658 2.85028 4.26388 3.67569 2.79464 5.14492C1.32541 6.61416 0.5 8.60687 0.5 10.6847H16.1688C16.1688 8.60687 15.3434 6.61416 13.8741 5.14492C12.4049 3.67569 10.4122 2.85028 8.3344 2.85028ZM8.3344 2.85028L8.33447 0.5M11.6353 16.9678C11.6353 17.4677 11.4614 17.9472 11.1519 18.3006C10.8424 18.6541 10.4226 18.8527 9.98488 18.8527C9.54717 18.8527 9.12738 18.6541 8.81787 18.3006C8.50836 17.9472 8.33448 17.4677 8.33448 16.9678V10.6847" stroke="#000001" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg></span>
+            <span class="profile-drawer__row-label">未成年人模式</span>
+            <span class="profile-drawer__chevron" aria-hidden="true">›</span>
+          </a>
+          <a href="#" class="profile-drawer__row">
+            <span class="profile-drawer__row-icon"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="18" viewBox="0 0 17 18" fill="none">
+  <path d="M3.53571 8.85795V5.47653C3.5452 4.81185 3.67846 4.15569 3.92785 3.54564C4.17725 2.93559 4.53788 2.38365 4.98909 1.92142C5.4403 1.4592 5.97321 1.09579 6.55729 0.852019C7.14137 0.608244 7.76514 0.488896 8.39286 0.500812C9.02058 0.488896 9.64434 0.608244 10.2284 0.852019C10.8125 1.09579 11.3454 1.4592 11.7966 1.92142C12.2478 2.38365 12.6085 2.93559 12.8579 3.54564C13.1073 4.15569 13.2405 4.81185 13.25 5.47653V8.85795M10.8214 15.608C11.4655 15.608 12.0832 15.337 12.5387 14.8548C12.9941 14.3726 13.25 13.7185 13.25 13.0365V10.1437M10.8214 15.608C10.8214 16.0342 10.6615 16.443 10.3769 16.7444C10.0922 17.0458 9.70613 17.2151 9.30357 17.2151H7.48214C7.07958 17.2151 6.69351 17.0458 6.40886 16.7444C6.1242 16.443 5.96429 16.0342 5.96429 15.608C5.96429 15.1817 6.1242 14.7729 6.40886 14.4715C6.69351 14.1701 7.07958 14.0008 7.48214 14.0008H9.30357C9.70613 14.0008 10.0922 14.1701 10.3769 14.4715C10.6615 14.7729 10.8214 15.1817 10.8214 15.608ZM1.71429 6.92938H2.92857C3.0896 6.92938 3.24402 6.99711 3.35789 7.11767C3.47175 7.23823 3.53571 7.40174 3.53571 7.57224V11.4294C3.53571 11.5999 3.47175 11.7634 3.35789 11.884C3.24402 12.0045 3.0896 12.0722 2.92857 12.0722H1.71429C1.39224 12.0722 1.08338 11.9368 0.855656 11.6957C0.627933 11.4545 0.5 11.1275 0.5 10.7865V8.2151C0.5 7.8741 0.627933 7.54708 0.855656 7.30596C1.08338 7.06484 1.39224 6.92938 1.71429 6.92938ZM15.0714 12.0722H13.8571C13.6961 12.0722 13.5417 12.0045 13.4278 11.884C13.314 11.7634 13.25 11.5999 13.25 11.4294V7.57224C13.25 7.40174 13.314 7.23823 13.4278 7.11767C13.5417 6.99711 13.6961 6.92938 13.8571 6.92938H15.0714C15.3935 6.92938 15.7023 7.06484 15.9301 7.30596C16.1578 7.54708 16.2857 7.8741 16.2857 8.2151V10.7865C16.2857 11.1275 16.1578 11.4545 15.9301 11.6957C15.7023 11.9368 15.3935 12.0722 15.0714 12.0722Z" stroke="#000001" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg></span>
+            <span class="profile-drawer__row-label">我的客服</span>
+            <span class="profile-drawer__chevron" aria-hidden="true">›</span>
+          </a>
+          <a href="#" class="profile-drawer__row">
+            <span class="profile-drawer__row-icon"><svg class="icon-qr" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+  <path d="M11.9072 11.0571C11.9072 10.6429 11.5714 10.3071 11.1572 10.3071C10.743 10.3071 10.4072 10.6429 10.4072 11.0571H11.1572H11.9072ZM10.4072 16.2529C10.4072 16.6671 10.743 17.0029 11.1572 17.0029C11.5714 17.0029 11.9072 16.6671 11.9072 16.2529H11.1572H10.4072ZM14.5 11.0571C14.5 10.6429 14.1642 10.3071 13.75 10.3071C13.3358 10.3071 13 10.6429 13 11.0571H13.75H14.5ZM13 16.2529C13 16.6671 13.3358 17.0029 13.75 17.0029C14.1642 17.0029 14.5 16.6671 14.5 16.2529H13.75H13ZM17.0928 11.0571C17.0928 10.6429 16.757 10.3071 16.3428 10.3071C15.9286 10.3071 15.5928 10.6429 15.5928 11.0571H16.3428H17.0928ZM15.5928 16.2529C15.5928 16.6671 15.9286 17.0029 16.3428 17.0029C16.757 17.0029 17.0928 16.6671 17.0928 16.2529H16.3428H15.5928ZM11.1572 11.0571H10.4072V16.2529H11.1572H11.9072V11.0571H11.1572ZM13.75 11.0571H13V16.2529H13.75H14.5V11.0571H13.75ZM16.3428 11.0571H15.5928V16.2529H16.3428H17.0928V11.0571H16.3428ZM2.75 0.75V1.5H4.75V0.75V0H2.75V0.75ZM6.75 2.75H6V4.75H6.75H7.5V2.75H6.75ZM4.75 6.75V6H2.75V6.75V7.5H4.75V6.75ZM0.75 4.75H1.5V2.75H0.75H0V4.75H0.75ZM2.75 6.75V6C2.25739 6 1.96339 5.99841 1.75266 5.97008C1.65611 5.95709 1.60774 5.9418 1.58596 5.93284C1.58092 5.93077 1.5776 5.92915 1.57567 5.92814C1.57376 5.92714 1.57292 5.92659 1.57283 5.92653C1.57277 5.92649 1.573 5.92665 1.57335 5.92693C1.5737 5.92721 1.57368 5.92723 1.57322 5.92678L1.04289 6.45711L0.512563 6.98744C0.821586 7.29646 1.19731 7.40891 1.55279 7.4567C1.8867 7.50159 2.2998 7.5 2.75 7.5V6.75ZM0.75 4.75H0C0 5.2002 -0.00159281 5.6133 0.0432996 5.94721C0.0910926 6.30269 0.20354 6.67841 0.512563 6.98744L1.04289 6.45711L1.57322 5.92678C1.57277 5.92632 1.57279 5.9263 1.57307 5.92665C1.57335 5.927 1.57351 5.92723 1.57347 5.92717C1.57341 5.92708 1.57286 5.92624 1.57186 5.92433C1.57085 5.9224 1.56923 5.91908 1.56716 5.91404C1.5582 5.89226 1.54291 5.84389 1.52992 5.74734C1.50159 5.53661 1.5 5.24261 1.5 4.75H0.75ZM6.75 4.75H6C6 5.24261 5.99841 5.53661 5.97008 5.74734C5.95709 5.84389 5.9418 5.89226 5.93284 5.91404C5.93077 5.91908 5.92915 5.9224 5.92814 5.92433C5.92714 5.92624 5.92659 5.92708 5.92653 5.92717C5.92649 5.92723 5.92665 5.927 5.92693 5.92665C5.92721 5.9263 5.92723 5.92632 5.92678 5.92678L6.45711 6.45711L6.98744 6.98744C7.29646 6.67841 7.40891 6.30269 7.4567 5.94721C7.50159 5.6133 7.5 5.2002 7.5 4.75H6.75ZM4.75 6.75V7.5C5.2002 7.5 5.6133 7.50159 5.94721 7.4567C6.30269 7.40891 6.67841 7.29646 6.98744 6.98744L6.45711 6.45711L5.92678 5.92678C5.92632 5.92723 5.9263 5.92721 5.92665 5.92693C5.927 5.92665 5.92723 5.92649 5.92717 5.92653C5.92708 5.92659 5.92624 5.92714 5.92433 5.92814C5.9224 5.92915 5.91908 5.93077 5.91404 5.93284C5.89226 5.9418 5.84389 5.95709 5.74734 5.97008C5.53661 5.99841 5.24261 6 4.75 6V6.75ZM4.75 0.75V1.5C5.24261 1.5 5.53661 1.50159 5.74734 1.52992C5.84389 1.54291 5.89226 1.5582 5.91404 1.56716C5.91908 1.56923 5.9224 1.57085 5.92433 1.57186C5.92624 1.57286 5.92708 1.57341 5.92717 1.57347C5.92723 1.57351 5.927 1.57335 5.92665 1.57307C5.9263 1.57279 5.92632 1.57277 5.92678 1.57322L6.45711 1.04289L6.98744 0.512563C6.67841 0.20354 6.30269 0.0910926 5.94721 0.0432996C5.6133 -0.00159281 5.2002 0 4.75 0V0.75ZM6.75 2.75H7.5C7.5 2.2998 7.50159 1.8867 7.4567 1.55279C7.40891 1.19731 7.29646 0.821586 6.98744 0.512563L6.45711 1.04289L5.92678 1.57322C5.92723 1.57368 5.92721 1.5737 5.92693 1.57335C5.92665 1.573 5.92649 1.57277 5.92653 1.57283C5.92659 1.57292 5.92714 1.57376 5.92814 1.57567C5.92915 1.5776 5.93077 1.58092 5.93284 1.58596C5.9418 1.60774 5.95709 1.65611 5.97008 1.75266C5.99841 1.96339 6 2.25739 6 2.75H6.75ZM2.75 0.75V0C2.2998 0 1.8867 -0.00159281 1.55279 0.0432996C1.19731 0.0910926 0.821586 0.20354 0.512563 0.512563L1.04289 1.04289L1.57322 1.57322C1.57368 1.57277 1.5737 1.57279 1.57335 1.57307C1.573 1.57335 1.57277 1.57351 1.57283 1.57347C1.57292 1.57341 1.57376 1.57286 1.57567 1.57186C1.5776 1.57085 1.58092 1.56923 1.58596 1.56716C1.60774 1.5582 1.65611 1.54291 1.75266 1.52992C1.96339 1.50159 2.25739 1.5 2.75 1.5V0.75ZM0.75 2.75H1.5C1.5 2.25739 1.50159 1.96339 1.52992 1.75266C1.54291 1.65611 1.5582 1.60774 1.56716 1.58596C1.56923 1.58092 1.57085 1.5776 1.57186 1.57567C1.57286 1.57376 1.57341 1.57292 1.57347 1.57283C1.57351 1.57277 1.57335 1.573 1.57307 1.57335C1.57279 1.5737 1.57277 1.57368 1.57322 1.57322L1.04289 1.04289L0.512563 0.512563C0.20354 0.821586 0.0910926 1.19731 0.0432996 1.55279C-0.00159281 1.8867 0 2.2998 0 2.75H0.75ZM2.75 10.75V11.5H4.75V10.75V10H2.75V10.75ZM6.75 12.75H6V14.75H6.75H7.5V12.75H6.75ZM4.75 16.75V16H2.75V16.75V17.5H4.75V16.75ZM0.75 14.75H1.5V12.75H0.75H0V14.75H0.75ZM2.75 16.75V16C2.25739 16 1.96339 15.9984 1.75266 15.9701C1.65611 15.9571 1.60774 15.9418 1.58596 15.9328C1.58092 15.9308 1.5776 15.9291 1.57567 15.9281C1.57376 15.9271 1.57292 15.9266 1.57283 15.9265C1.57277 15.9265 1.573 15.9266 1.57335 15.9269C1.5737 15.9272 1.57368 15.9272 1.57322 15.9268L1.04289 16.4571L0.512563 16.9874C0.821586 17.2965 1.19731 17.4089 1.55279 17.4567C1.8867 17.5016 2.2998 17.5 2.75 17.5V16.75ZM0.75 14.75H0C0 15.2002 -0.00159281 15.6133 0.0432996 15.9472C0.0910926 16.3027 0.20354 16.6784 0.512563 16.9874L1.04289 16.4571L1.57322 15.9268C1.57277 15.9263 1.57279 15.9263 1.57307 15.9266C1.57335 15.927 1.57351 15.9272 1.57347 15.9272C1.57341 15.9271 1.57286 15.9262 1.57186 15.9243C1.57085 15.9224 1.56923 15.9191 1.56716 15.914C1.5582 15.8923 1.54291 15.8439 1.52992 15.7473C1.50159 15.5366 1.5 15.2426 1.5 14.75H0.75ZM6.75 14.75H6C6 15.2426 5.99841 15.5366 5.97008 15.7473C5.95709 15.8439 5.9418 15.8923 5.93284 15.914C5.93077 15.9191 5.92915 15.9224 5.92814 15.9243C5.92714 15.9262 5.92659 15.9271 5.92653 15.9272C5.92649 15.9272 5.92665 15.927 5.92693 15.9266C5.92721 15.9263 5.92723 15.9263 5.92678 15.9268L6.45711 16.4571L6.98744 16.9874C7.29646 16.6784 7.40891 16.3027 7.4567 15.9472C7.50159 15.6133 7.5 15.2002 7.5 14.75H6.75ZM4.75 16.75V17.5C5.2002 17.5 5.6133 17.5016 5.94721 17.4567C6.30269 17.4089 6.67841 17.2965 6.98744 16.9874L6.45711 16.4571L5.92678 15.9268C5.92632 15.9272 5.9263 15.9272 5.92665 15.9269C5.927 15.9266 5.92723 15.9265 5.92717 15.9265C5.92708 15.9266 5.92624 15.9271 5.92433 15.9281C5.9224 15.9291 5.91908 15.9308 5.91404 15.9328C5.89226 15.9418 5.84389 15.9571 5.74734 15.9701C5.53661 15.9984 5.24261 16 4.75 16V16.75ZM4.75 10.75V11.5C5.24261 11.5 5.53661 11.5016 5.74734 11.5299C5.84389 11.5429 5.89226 11.5582 5.91404 11.5672C5.91908 11.5692 5.9224 11.5709 5.92433 11.5719C5.92624 11.5729 5.92708 11.5734 5.92717 11.5735C5.92723 11.5735 5.927 11.5734 5.92665 11.5731C5.9263 11.5728 5.92632 11.5728 5.92678 11.5732L6.45711 11.0429L6.98744 10.5126C6.67841 10.2035 6.30269 10.0911 5.94721 10.0433C5.6133 9.99841 5.2002 10 4.75 10V10.75ZM6.75 12.75H7.5C7.5 12.2998 7.50159 11.8867 7.4567 11.5528C7.40891 11.1973 7.29646 10.8216 6.98744 10.5126L6.45711 11.0429L5.92678 11.5732C5.92723 11.5737 5.92721 11.5737 5.92693 11.5734C5.92665 11.573 5.92649 11.5728 5.92653 11.5728C5.92659 11.5729 5.92714 11.5738 5.92814 11.5757C5.92915 11.5776 5.93077 11.5809 5.93284 11.586C5.9418 11.6077 5.95709 11.6561 5.97008 11.7527C5.99841 11.9634 6 12.2574 6 12.75H6.75ZM2.75 10.75V10C2.2998 10 1.8867 9.99841 1.55279 10.0433C1.19731 10.0911 0.821586 10.2035 0.512563 10.5126L1.04289 11.0429L1.57322 11.5732C1.57368 11.5728 1.5737 11.5728 1.57335 11.5731C1.573 11.5734 1.57277 11.5735 1.57283 11.5735C1.57292 11.5734 1.57376 11.5729 1.57567 11.5719C1.5776 11.5709 1.58092 11.5692 1.58596 11.5672C1.60774 11.5582 1.65611 11.5429 1.75266 11.5299C1.96339 11.5016 2.25739 11.5 2.75 11.5V10.75ZM0.75 12.75H1.5C1.5 12.2574 1.50159 11.9634 1.52992 11.7527C1.54291 11.6561 1.5582 11.6077 1.56716 11.586C1.56923 11.5809 1.57085 11.5776 1.57186 11.5757C1.57286 11.5738 1.57341 11.5729 1.57347 11.5728C1.57351 11.5728 1.57335 11.573 1.57307 11.5734C1.57279 11.5737 1.57277 11.5737 1.57322 11.5732L1.04289 11.0429L0.512563 10.5126C0.20354 10.8216 0.0910926 11.1973 0.0432996 11.5528C-0.00159281 11.8867 0 12.2998 0 12.75H0.75ZM12.75 0.75V1.5H14.75V0.75V0H12.75V0.75ZM16.75 2.75H16V4.75H16.75H17.5V2.75H16.75ZM14.75 6.75V6H12.75V6.75V7.5H14.75V6.75ZM10.75 4.75H11.5V2.75H10.75H10V4.75H10.75ZM12.75 6.75V6C12.2574 6 11.9634 5.99841 11.7527 5.97008C11.6561 5.95709 11.6077 5.9418 11.586 5.93284C11.5809 5.93077 11.5776 5.92915 11.5757 5.92814C11.5738 5.92714 11.5729 5.92659 11.5728 5.92653C11.5728 5.92649 11.573 5.92665 11.5734 5.92693C11.5737 5.92721 11.5737 5.92723 11.5732 5.92678L11.0429 6.45711L10.5126 6.98744C10.8216 7.29646 11.1973 7.40891 11.5528 7.4567C11.8867 7.50159 12.2998 7.5 12.75 7.5V6.75ZM10.75 4.75H10C10 5.2002 9.99841 5.6133 10.0433 5.94721C10.0911 6.30269 10.2035 6.67841 10.5126 6.98744L11.0429 6.45711L11.5732 5.92678C11.5728 5.92632 11.5728 5.9263 11.5731 5.92665C11.5734 5.927 11.5735 5.92723 11.5735 5.92717C11.5734 5.92708 11.5729 5.92624 11.5719 5.92433C11.5709 5.9224 11.5692 5.91908 11.5672 5.91404C11.5582 5.89226 11.5429 5.84389 11.5299 5.74734C11.5016 5.53661 11.5 5.24261 11.5 4.75H10.75ZM16.75 4.75H16C16 5.24261 15.9984 5.53661 15.9701 5.74734C15.9571 5.84389 15.9418 5.89226 15.9328 5.91404C15.9308 5.91908 15.9291 5.9224 15.9281 5.92433C15.9271 5.92624 15.9266 5.92708 15.9265 5.92717C15.9265 5.92723 15.9266 5.927 15.9269 5.92665C15.9272 5.9263 15.9272 5.92632 15.9268 5.92678L16.4571 6.45711L16.9874 6.98744C17.2965 6.67841 17.4089 6.30269 17.4567 5.94721C17.5016 5.6133 17.5 5.2002 17.5 4.75H16.75ZM14.75 6.75V7.5C15.2002 7.5 15.6133 7.50159 15.9472 7.4567C16.3027 7.40891 16.6784 7.29646 16.9874 6.98744L16.4571 6.45711L15.9268 5.92678C15.9263 5.92723 15.9263 5.92721 15.9266 5.92693C15.927 5.92665 15.9272 5.92649 15.9272 5.92653C15.9271 5.92659 15.9262 5.92714 15.9243 5.92814C15.9224 5.92915 15.9191 5.93077 15.914 5.93284C15.8923 5.9418 15.8439 5.95709 15.7473 5.97008C15.5366 5.99841 15.2426 6 14.75 6V6.75ZM14.75 0.75V1.5C15.2426 1.5 15.5366 1.50159 15.7473 1.52992C15.8439 1.54291 15.8923 1.5582 15.914 1.56716C15.9191 1.56923 15.9224 1.57085 15.9243 1.57186C15.9262 1.57286 15.9271 1.57341 15.9272 1.57347C15.9272 1.57351 15.927 1.57335 15.9266 1.57307C15.9263 1.57279 15.9263 1.57277 15.9268 1.57322L16.4571 1.04289L16.9874 0.512563C16.6784 0.20354 16.3027 0.0910926 15.9472 0.0432996C15.6133 -0.00159281 15.2002 0 14.75 0V0.75ZM16.75 2.75H17.5C17.5 2.2998 17.5016 1.8867 17.4567 1.55279C17.4089 1.19731 17.2965 0.821586 16.9874 0.512563L16.4571 1.04289L15.9268 1.57322C15.9272 1.57368 15.9272 1.5737 15.9269 1.57335C15.9266 1.573 15.9265 1.57277 15.9265 1.57283C15.9266 1.57292 15.9271 1.57376 15.9281 1.57567C15.9291 1.5776 15.9308 1.58092 15.9328 1.58596C15.9418 1.60774 15.9571 1.65611 15.9701 1.75266C15.9984 1.96339 16 2.25739 16 2.75H16.75ZM12.75 0.75V0C12.2998 0 11.8867 -0.00159281 11.5528 0.0432996C11.1973 0.0910926 10.8216 0.20354 10.5126 0.512563L11.0429 1.04289L11.5732 1.57322C11.5737 1.57277 11.5737 1.57279 11.5734 1.57307C11.573 1.57335 11.5728 1.57351 11.5728 1.57347C11.5729 1.57341 11.5738 1.57286 11.5757 1.57186C11.5776 1.57085 11.5809 1.56923 11.586 1.56716C11.6077 1.5582 11.6561 1.54291 11.7527 1.52992C11.9634 1.50159 12.2574 1.5 12.75 1.5V0.75ZM10.75 2.75H11.5C11.5 2.25739 11.5016 1.96339 11.5299 1.75266C11.5429 1.65611 11.5582 1.60774 11.5672 1.58596C11.5692 1.58092 11.5709 1.5776 11.5719 1.57567C11.5729 1.57376 11.5734 1.57292 11.5735 1.57283C11.5735 1.57277 11.5734 1.573 11.5731 1.57335C11.5728 1.5737 11.5728 1.57368 11.5732 1.57322L11.0429 1.04289L10.5126 0.512563C10.2035 0.821586 10.0911 1.19731 10.0433 1.55279C9.99841 1.8867 10 2.2998 10 2.75H10.75Z" fill="#222222"/>
+</svg></span>
+            <span class="profile-drawer__row-label">我的二维码</span>
+            <span class="profile-drawer__chevron" aria-hidden="true">›</span>
+          </a>
+        </div>
+        <div class="profile-drawer__card">
+          <div class="profile-drawer__section-title">
+            <span>通知消息</span>
+            <span>有新消息 <span style="color:#ff4d4f;font-size:10px">●</span> ›</span>
+          </div>
+          <div class="profile-drawer__notice">
+            <span style="color:#ff4d4f;font-size:16px;line-height:1">📣</span>
+            <span style="flex:1">系统通知：授权登录提醒</span>
+            <span class="profile-drawer__notice-date">4/7</span>
+          </div>
+          <div class="profile-drawer__notice">
+            <span style="color:#ff4d4f;font-size:16px;line-height:1">📣</span>
+            <span style="flex:1">用户协议及隐私政策更新说明</span>
+            <span class="profile-drawer__notice-date">2/15</span>
+          </div>
+        </div>
+        </div>
+      </aside>
+    </div>
+
   </div>
 
   <script src="../js/utils/auth.js"></script>
@@ -215,5 +535,77 @@
   <script src="../js/utils/assets.js"></script>
   <script src="../js/utils/router.js"></script>
   <script src="../js/utils/nav.js"></script>
+  <script>
+    (function setupProfileTabs() {
+      var wrap = document.querySelector('.profile-tabs');
+      var ind = document.querySelector('.profile-tab-indicator');
+      var tabs = document.querySelectorAll('.profile-tabs .profile-tab');
+
+      function moveIndicator() {
+        if (!wrap || !ind) return;
+        var active = wrap.querySelector('.profile-tab.is-active');
+        if (!active) return;
+        var wr = wrap.getBoundingClientRect();
+        var ar = active.getBoundingClientRect();
+        ind.style.width = ar.width + 'px';
+        ind.style.transform = 'translateX(' + (ar.left - wr.left) + 'px)';
+      }
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          tabs.forEach(function (t) {
+            t.classList.remove('is-active');
+            t.setAttribute('aria-selected', 'false');
+          });
+          tab.classList.add('is-active');
+          tab.setAttribute('aria-selected', 'true');
+          moveIndicator();
+        });
+      });
+
+      function scheduleMove() {
+        requestAnimationFrame(function () {
+          requestAnimationFrame(moveIndicator);
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', scheduleMove);
+      } else {
+        scheduleMove();
+      }
+      window.addEventListener('resize', moveIndicator);
+      window.addEventListener('load', moveIndicator);
+    })();
+
+    (function setupProfileHomeDrawer() {
+      var root = document.getElementById('profile-home-drawer');
+      var openBtn = document.getElementById('btn-profile-more');
+      if (!root || !openBtn) return;
+
+      function setOpen(open) {
+        root.classList.toggle('is-open', open);
+        root.setAttribute('aria-hidden', open ? 'false' : 'true');
+        openBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      }
+
+      openBtn.addEventListener('click', function () {
+        setOpen(!root.classList.contains('is-open'));
+      });
+
+      root.querySelectorAll('[data-close-drawer]').forEach(function (el) {
+        el.addEventListener('click', function () {
+          setOpen(false);
+        });
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && root.classList.contains('is-open')) {
+          e.preventDefault();
+          setOpen(false);
+        }
+      });
+    })();
+  </script>
 </body>
 </html>

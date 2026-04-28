@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>派对游戏 - Vibe</title>
+  <link rel="stylesheet" href="../css/base/variables.css">
+  <link rel="stylesheet" href="../css/base/reset.css">
+  <link rel="stylesheet" href="../css/base/typography.css">
+  <link rel="stylesheet" href="../css/components/status-bar.css">
+  <style>
+    *{box-sizing:border-box} body{margin:0;font-family:"PingFang SC","Microsoft YaHei",sans-serif}
+    .phone-frame{display:flex;flex-direction:column;background:#fff}
+    .top{padding:0 0 8px;background:#fff}
+    .bar{height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 14px}
+    .btn{border:none;background:transparent;padding:0;line-height:0;cursor:pointer}
+    #btn-back{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;margin-left:-8px}
+    .title{display:flex;align-items:center;justify-content:center;line-height:0}
+    .title img{height:32px;width:auto;display:block}
+    .right{display:flex;align-items:center;gap:14px}
+    .body{flex:1;display:flex;flex-direction:column;overflow:hidden;padding:0;background:#fafafa}
+    .top-block{background:#fff;padding:8px 12px 8px}
+    .cards-block{flex:1;background:#fafafa;padding:10px 12px 14px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+    .cards-block::-webkit-scrollbar{display:none}
+    .chips{display:flex;gap:12px;overflow-x:auto;padding-bottom:4px;width:calc(100% + 24px);margin-right:-24px;padding-right:12px} .chips::-webkit-scrollbar{display:none}
+    .chip{height:34px;border:none;border-radius:17px;padding:0 16px;background:#f3f4f6;color:#111;font:400 16px/1 "PingFang SC","Microsoft YaHei",sans-serif;white-space:nowrap}
+    .chip.is-active{background:#00fef1;color:#111}
+    .section-head{margin:14px 2px 14px;display:flex;align-items:center;justify-content:space-between}
+    .section-title{font-size:16px;font-weight:700;line-height:1;color:#111}
+    .tiny{font:12px/1.1 "PingFang SC",sans-serif;color:#888;text-align:center}
+    .strip{display:flex;gap:8px;overflow-x:auto;margin-bottom:10px;width:calc(100% + 24px);margin-right:-24px;padding-right:12px} .strip::-webkit-scrollbar{display:none}
+    .strip img{width:84px;height:48px;border-radius:10px;object-fit:cover;flex:0 0 auto}
+    .fold{width:24px;height:14px;margin:0 auto 10px;color:#9ea0a6;display:block}
+    .grid{column-count:2;column-gap:10px}
+    .card{width:100%;break-inside:avoid;display:inline-flex;flex-direction:column;justify-content:space-between;border-radius:11px;padding:10px 10px 9px;background:#c9f6eb;min-height:188px;margin:0 0 10px}
+    .blue{background:#d7e2ff}.yellow{background:#f8eec6}
+    .head{display:flex;gap:8px;align-items:center}
+    .icon{width:42px;height:42px;border-radius:10px;object-fit:cover}
+    .icon--frog{object-position:72% center}
+    .icon--watermelon{object-position:72% center}
+    .name{font-size:14px;font-weight:700;color:#222}.meta{margin-top:3px;font-size:12px;color:rgba(34,34,34,.7)}
+    .room{font-size:14px;color:#222;line-height:1.35;margin:16px 0 8px;min-height:38px}
+    .foot{display:flex;align-items:center;justify-content:space-between}
+    .avatars{display:flex;align-items:center}.avatars img{width:22px;height:22px;border-radius:50%;border:2px solid #fff;object-fit:cover;margin-left:-7px}.avatars img:first-child{margin-left:0}
+    .count{font-size:14px;font-weight:500;color:#222;display:flex;align-items:center;gap:4px}
+    .count svg{width:9px;height:9px;display:block;flex-shrink:0}
+  </style>
+</head>
+<body>
+  <div class="phone-frame">
+    <header class="top">
+      <div class="status-bar status-bar--image">
+        <img class="status-bar__header-image" src="../assets/images/header.png" alt="status bar">
+      </div>
+      <div class="bar">
+        <button class="btn" id="btn-back" aria-label="返回">
+          <svg xmlns="http://www.w3.org/2000/svg" width="9" height="16" viewBox="0 0 9 16" fill="none"><path d="M8 15L1 8L8 1" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="title"><img src="../assets/images/login_vibe_logo.png" alt="Vibe"></h1>
+        <div class="right">
+          <button class="btn" aria-label="搜索"><svg width="24" height="24" viewBox="0 0 22 22" fill="none"><circle cx="10" cy="10" r="7" stroke="black" stroke-width="1.8"/><path d="M16 16l4 4" stroke="black" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+          <button class="btn" type="button" aria-label="创建">
+            <svg width="24" height="24" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <circle cx="10" cy="10" r="8.5" stroke="#222222" stroke-width="1.8"/>
+              <path d="M10 6.25V13.75" stroke="#222222" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M6.25 10H13.75" stroke="#222222" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main class="body">
+      <div class="top-block">
+      <div class="chips">
+        <button class="chip is-active" data-filter="all">全部</button><button class="chip" data-filter="watermelon">大西瓜</button><button class="chip" data-filter="frog">拆弹蛙</button><button class="chip" data-filter="bull">牛了个牛</button><button class="chip" data-filter="block">方块达人</button>
+      </div>
+      <div class="section-head">
+        <div class="section-title">极速开局</div>
+      </div>
+      <div class="strip">
+        <img src="../assets/images/合成西瓜.png" alt=""><img src="../assets/images/拆弹蛙（广场页的）.png" alt=""><img src="../assets/images/牛了个牛.png" alt=""><img src="../assets/images/topic_pk.png" alt=""><img src="../assets/images/方块达人.jpg" alt="">
+      </div>
+      </div>
+      <div class="cards-block">
+      <section class="grid">
+        <article class="card" data-game="frog">
+          <div><div class="head"><img class="icon icon--frog" src="../assets/images/拆弹蛙（广场页的）.png" alt=""><div><div class="name">拆弹蛙</div><div class="meta">组队中 5/6</div></div></div><div class="room">安静上分房，来一位会配合的队友</div></div>
+          <div class="foot"><div class="avatars"><img src="../assets/images/friend_cuipi.jpg" alt=""><img src="../assets/images/friend_douhua.jpg" alt=""><img src="../assets/images/friend_luc.jpg" alt=""><img src="../assets/images/friend_erfen.jpg" alt=""></div><div class="count"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M8.00459 8.20269C8.28099 8.14509 8.44561 7.85585 8.30826 7.60916C8.00547 7.06533 7.52846 6.58745 6.91825 6.22326C6.13235 5.75423 5.16942 5.5 4.17882 5.5C3.18822 5.5 2.22529 5.75423 1.43939 6.22326C0.829177 6.58745 0.352164 7.06533 0.0493733 7.60916C-0.0879753 7.85585 0.0766422 8.14508 0.35305 8.20269C2.87645 8.72858 5.48118 8.72858 8.00459 8.20269Z" fill="#222222"/><path d="M6.67883 2.5C6.67883 3.88071 5.55954 5 4.17883 5C2.79812 5 1.67883 3.88071 1.67883 2.5C1.67883 1.11929 2.79812 0 4.17883 0C5.55954 0 6.67883 1.11929 6.67883 2.5Z" fill="#222222"/></svg><span>6人</span></div></div>
+        </article>
+        <article class="card" data-game="frog">
+          <div><div class="head"><img class="icon icon--frog" src="../assets/images/拆弹蛙（广场页的）.png" alt=""><div><div class="name">拆弹蛙</div><div class="meta">组队中 5/6</div></div></div><div class="room">差一人马上开局</div></div>
+          <div class="foot"><div class="avatars"><img src="../assets/images/friend_douhua.jpg" alt=""><img src="../assets/images/friend_luc.jpg" alt=""><img src="../assets/images/friend_erfen.jpg" alt=""><img src="../assets/images/friend_cuipi.jpg" alt=""></div><div class="count"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M8.00459 8.20269C8.28099 8.14509 8.44561 7.85585 8.30826 7.60916C8.00547 7.06533 7.52846 6.58745 6.91825 6.22326C6.13235 5.75423 5.16942 5.5 4.17882 5.5C3.18822 5.5 2.22529 5.75423 1.43939 6.22326C0.829177 6.58745 0.352164 7.06533 0.0493733 7.60916C-0.0879753 7.85585 0.0766422 8.14508 0.35305 8.20269C2.87645 8.72858 5.48118 8.72858 8.00459 8.20269Z" fill="#222222"/><path d="M6.67883 2.5C6.67883 3.88071 5.55954 5 4.17883 5C2.79812 5 1.67883 3.88071 1.67883 2.5C1.67883 1.11929 2.79812 0 4.17883 0C5.55954 0 6.67883 1.11929 6.67883 2.5Z" fill="#222222"/></svg><span>9人</span></div></div>
+        </article>
+        <article class="card blue" data-game="block">
+          <div><div class="head"><img class="icon" src="../assets/images/方块达人.jpg" alt=""><div><div class="name">方块达人</div><div class="meta">组队中 1/2</div></div></div><div class="room">速开一局，来个会配合的</div></div>
+          <div class="foot"><div class="avatars"><img src="../assets/images/friend_cuipi.jpg" alt=""></div><div class="count"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M8.00459 8.20269C8.28099 8.14509 8.44561 7.85585 8.30826 7.60916C8.00547 7.06533 7.52846 6.58745 6.91825 6.22326C6.13235 5.75423 5.16942 5.5 4.17882 5.5C3.18822 5.5 2.22529 5.75423 1.43939 6.22326C0.829177 6.58745 0.352164 7.06533 0.0493733 7.60916C-0.0879753 7.85585 0.0766422 8.14508 0.35305 8.20269C2.87645 8.72858 5.48118 8.72858 8.00459 8.20269Z" fill="#222222"/><path d="M6.67883 2.5C6.67883 3.88071 5.55954 5 4.17883 5C2.79812 5 1.67883 3.88071 1.67883 2.5C1.67883 1.11929 2.79812 0 4.17883 0C5.55954 0 6.67883 1.11929 6.67883 2.5Z" fill="#222222"/></svg><span>1人</span></div></div>
+        </article>
+        <article class="card blue" data-game="block">
+          <div><div class="head"><img class="icon" src="../assets/images/方块达人.jpg" alt=""><div><div class="name">方块达人</div><div class="meta">组队中 1/2</div></div></div><div class="room">快来和我一起玩游戏</div></div>
+          <div class="foot"><div class="avatars"><img src="../assets/images/friend_cuipi.jpg" alt=""><img src="../assets/images/friend_douhua.jpg" alt=""></div><div class="count"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M8.00459 8.20269C8.28099 8.14509 8.44561 7.85585 8.30826 7.60916C8.00547 7.06533 7.52846 6.58745 6.91825 6.22326C6.13235 5.75423 5.16942 5.5 4.17882 5.5C3.18822 5.5 2.22529 5.75423 1.43939 6.22326C0.829177 6.58745 0.352164 7.06533 0.0493733 7.60916C-0.0879753 7.85585 0.0766422 8.14508 0.35305 8.20269C2.87645 8.72858 5.48118 8.72858 8.00459 8.20269Z" fill="#222222"/><path d="M6.67883 2.5C6.67883 3.88071 5.55954 5 4.17883 5C2.79812 5 1.67883 3.88071 1.67883 2.5C1.67883 1.11929 2.79812 0 4.17883 0C5.55954 0 6.67883 1.11929 6.67883 2.5Z" fill="#222222"/></svg><span>3人</span></div></div>
+        </article>
+        <article class="card blue" data-game="block">
+          <div><div class="head"><img class="icon" src="../assets/images/方块达人.jpg" alt=""><div><div class="name">方块达人</div><div class="meta">组队中 3/4</div></div></div><div class="room">缺一名队友，马上开局</div></div>
+          <div class="foot"><div class="avatars"><img src="../assets/images/friend_cuipi.jpg" alt=""><img src="../assets/images/friend_douhua.jpg" alt=""><img src="../assets/images/friend_luc.jpg" alt=""></div><div class="count"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M8.00459 8.20269C8.28099 8.14509 8.44561 7.85585 8.30826 7.60916C8.00547 7.06533 7.52846 6.58745 6.91825 6.22326C6.13235 5.75423 5.16942 5.5 4.17882 5.5C3.18822 5.5 2.22529 5.75423 1.43939 6.22326C0.829177 6.58745 0.352164 7.06533 0.0493733 7.60916C-0.0879753 7.85585 0.0766422 8.14508 0.35305 8.20269C2.87645 8.72858 5.48118 8.72858 8.00459 8.20269Z" fill="#222222"/><path d="M6.67883 2.5C6.67883 3.88071 5.55954 5 4.17883 5C2.79812 5 1.67883 3.88071 1.67883 2.5C1.67883 1.11929 2.79812 0 4.17883 0C5.55954 0 6.67883 1.11929 6.67883 2.5Z" fill="#222222"/></svg><span>3人</span></div></div>
+        </article>
+        <article class="card yellow" data-game="watermelon">
+          <div><div class="head"><img class="icon icon--watermelon" src="../assets/images/合成西瓜.png" alt=""><div><div class="name">合成西瓜</div><div class="meta">组队中 1/2</div></div></div><div class="room">休闲娱乐房，轻松聊天玩</div></div>
+          <div class="foot"><div class="avatars"><img src="../assets/images/friend_cuipi.jpg" alt=""><img src="../assets/images/friend_douhua.jpg" alt=""><img src="../assets/images/friend_luc.jpg" alt=""></div><div class="count"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M8.00459 8.20269C8.28099 8.14509 8.44561 7.85585 8.30826 7.60916C8.00547 7.06533 7.52846 6.58745 6.91825 6.22326C6.13235 5.75423 5.16942 5.5 4.17882 5.5C3.18822 5.5 2.22529 5.75423 1.43939 6.22326C0.829177 6.58745 0.352164 7.06533 0.0493733 7.60916C-0.0879753 7.85585 0.0766422 8.14508 0.35305 8.20269C2.87645 8.72858 5.48118 8.72858 8.00459 8.20269Z" fill="#222222"/><path d="M6.67883 2.5C6.67883 3.88071 5.55954 5 4.17883 5C2.79812 5 1.67883 3.88071 1.67883 2.5C1.67883 1.11929 2.79812 0 4.17883 0C5.55954 0 6.67883 1.11929 6.67883 2.5Z" fill="#222222"/></svg><span>4人</span></div></div>
+        </article>
+        <article class="card" data-game="frog">
+          <div><div class="head"><img class="icon icon--frog" src="../assets/images/拆弹蛙（广场页的）.png" alt=""><div><div class="name">拆弹蛙</div><div class="meta">组队中 4/6</div></div></div><div class="room">新手友好局，边玩边教</div></div>
+          <div class="foot"><div class="avatars"><img src="../assets/images/friend_luc.jpg" alt=""><img src="../assets/images/friend_erfen.jpg" alt=""><img src="../assets/images/friend_cuipi.jpg" alt=""></div><div class="count"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M8.00459 8.20269C8.28099 8.14509 8.44561 7.85585 8.30826 7.60916C8.00547 7.06533 7.52846 6.58745 6.91825 6.22326C6.13235 5.75423 5.16942 5.5 4.17882 5.5C3.18822 5.5 2.22529 5.75423 1.43939 6.22326C0.829177 6.58745 0.352164 7.06533 0.0493733 7.60916C-0.0879753 7.85585 0.0766422 8.14508 0.35305 8.20269C2.87645 8.72858 5.48118 8.72858 8.00459 8.20269Z" fill="#222222"/><path d="M6.67883 2.5C6.67883 3.88071 5.55954 5 4.17883 5C2.79812 5 1.67883 3.88071 1.67883 2.5C1.67883 1.11929 2.79812 0 4.17883 0C5.55954 0 6.67883 1.11929 6.67883 2.5Z" fill="#222222"/></svg><span>4人</span></div></div>
+        </article>
+        <article class="card blue" data-game="block">
+          <div><div class="head"><img class="icon" src="../assets/images/方块达人.jpg" alt=""><div><div class="name">方块达人</div><div class="meta">组队中 2/4</div></div></div><div class="room">认真上分，来稳定队友</div></div>
+          <div class="foot"><div class="avatars"><img src="../assets/images/friend_douhua.jpg" alt=""><img src="../assets/images/friend_luc.jpg" alt=""></div><div class="count"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M8.00459 8.20269C8.28099 8.14509 8.44561 7.85585 8.30826 7.60916C8.00547 7.06533 7.52846 6.58745 6.91825 6.22326C6.13235 5.75423 5.16942 5.5 4.17882 5.5C3.18822 5.5 2.22529 5.75423 1.43939 6.22326C0.829177 6.58745 0.352164 7.06533 0.0493733 7.60916C-0.0879753 7.85585 0.0766422 8.14508 0.35305 8.20269C2.87645 8.72858 5.48118 8.72858 8.00459 8.20269Z" fill="#222222"/><path d="M6.67883 2.5C6.67883 3.88071 5.55954 5 4.17883 5C2.79812 5 1.67883 3.88071 1.67883 2.5C1.67883 1.11929 2.79812 0 4.17883 0C5.55954 0 6.67883 1.11929 6.67883 2.5Z" fill="#222222"/></svg><span>2人</span></div></div>
+        </article>
+        <article class="card yellow" data-game="watermelon">
+          <div><div class="head"><img class="icon icon--watermelon" src="../assets/images/合成西瓜.png" alt=""><div><div class="name">合成西瓜</div><div class="meta">组队中 3/4</div></div></div><div class="room">最后一位，进来就开</div></div>
+          <div class="foot"><div class="avatars"><img src="../assets/images/friend_erfen.jpg" alt=""><img src="../assets/images/friend_cuipi.jpg" alt=""><img src="../assets/images/friend_douhua.jpg" alt=""></div><div class="count"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M8.00459 8.20269C8.28099 8.14509 8.44561 7.85585 8.30826 7.60916C8.00547 7.06533 7.52846 6.58745 6.91825 6.22326C6.13235 5.75423 5.16942 5.5 4.17882 5.5C3.18822 5.5 2.22529 5.75423 1.43939 6.22326C0.829177 6.58745 0.352164 7.06533 0.0493733 7.60916C-0.0879753 7.85585 0.0766422 8.14508 0.35305 8.20269C2.87645 8.72858 5.48118 8.72858 8.00459 8.20269Z" fill="#222222"/><path d="M6.67883 2.5C6.67883 3.88071 5.55954 5 4.17883 5C2.79812 5 1.67883 3.88071 1.67883 2.5C1.67883 1.11929 2.79812 0 4.17883 0C5.55954 0 6.67883 1.11929 6.67883 2.5Z" fill="#222222"/></svg><span>3人</span></div></div>
+        </article>
+      </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/utils/auth.js"></script>
+  <script src="../js/utils/router.js"></script>
+  <script>
+    Auth.guard();
+    document.getElementById('btn-back').addEventListener('click', function () {
+      Router.back();
+    });
+
+    var chips = document.querySelectorAll('.chips .chip');
+    var cards = document.querySelectorAll('.grid .card');
+
+    function applyFilter(filter) {
+      cards.forEach(function (card) {
+        var game = card.getAttribute('data-game');
+        var visible = filter === 'all' || game === filter;
+        card.style.display = visible ? 'inline-flex' : 'none';
+      });
+    }
+
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        chips.forEach(function (c) { c.classList.remove('is-active'); });
+        chip.classList.add('is-active');
+        applyFilter(chip.getAttribute('data-filter') || 'all');
+      });
+    });
+  </script>
+</body>
+</html>
